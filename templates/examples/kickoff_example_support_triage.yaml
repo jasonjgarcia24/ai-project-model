@@ -1,0 +1,191 @@
+# AI Project Kick-Off — Example: AI-Powered Support Ticket Triage
+# Generated from templates/kickoff_template.yaml
+
+---
+metadata:
+  project_name: "AI-Powered Support Ticket Triage"
+  framework: "AI Project Model (Google PAIR-Aligned)"
+  authors:
+    pm: "Maria Chen"
+    tech_lead: "James Okafor"
+    additional: ["Priya Sharma"]
+  status: "Draft"
+  date: "2026-02-24"
+  document_id: ""
+
+problem_statement:
+  target_user: "Customer support agents handling 2,000+ tickets/day across 5 product lines"
+  problem_description: "Agents spend ~35% of their time manually reading and routing tickets to the correct specialist queue. Misroutes account for 18% of tickets, adding 4+ hours to average resolution time."
+  current_state: "Tickets are triaged manually by L1 agents using a static decision tree. The tree has not been updated in 14 months and does not account for 2 new product lines."
+  desired_outcome: "Tickets are auto-classified by priority (P1-P4) and routed to the correct specialist queue within seconds of submission, with agents retaining override capability."
+
+ai_justification:
+  ai_vs_rule_based:
+    solvable_with_rules: false
+    explanation: "The existing rule-based decision tree covers only 3 of 5 product lines and fails on multi-issue tickets, tickets with ambiguous language, and non-English submissions."
+    why_ai_warranted: "Ticket language is highly variable (slang, typos, multiple languages). Pattern complexity and volume (2,000+/day) exceed what static rules can handle reliably."
+  automation_vs_augmentation:
+    approach: "human_in_the_loop"
+    rationale: "P1/P2 tickets carry high business risk. The model will suggest classification and routing, but agents review and confirm before dispatch. P3/P4 tickets auto-route with a confidence threshold."
+
+success_metrics:
+  technical:
+    - id: "T1"
+      metric: "Classification accuracy (top-1)"
+      threshold: ">= 92%"
+      action_if_breached: "Retrain with expanded labeled dataset; review misclassified categories"
+    - id: "T2"
+      metric: "Inference latency (P95)"
+      threshold: "< 500ms"
+      action_if_breached: "Optimize model serving; evaluate model distillation"
+  human_centered:
+    - id: "H1"
+      metric: "Agent override rate"
+      threshold: "<= 15%"
+      action_if_breached: "Conduct agent interviews to identify systematic misclassifications"
+    - id: "H2"
+      metric: "Agent trust score (quarterly survey)"
+      threshold: ">= 4.0 / 5.0"
+      action_if_breached: "Improve explanation UI; increase transparency on model reasoning"
+  business:
+    - id: "B1"
+      metric: "Misroute rate"
+      threshold: "<= 5% (down from 18%)"
+      action_if_breached: "Audit routing logic; expand training data for problem categories"
+    - id: "B2"
+      metric: "Average time-to-resolution"
+      threshold: ">= 25% reduction"
+      action_if_breached: "Investigate bottlenecks beyond triage (e.g., specialist capacity)"
+
+roles:
+  - role: "PM (Accountable)"
+    name: "Maria Chen"
+    responsibility: "Overall project delivery, stakeholder alignment"
+    phase_coverage: "1-6"
+  - role: "Tech Lead"
+    name: "James Okafor"
+    responsibility: "Architecture, technical decisions, feasibility"
+    phase_coverage: "2-5"
+  - role: "Data Engineer"
+    name: "Priya Sharma"
+    responsibility: "Data pipelines, data quality, Data Cards"
+    phase_coverage: "2-5"
+  - role: "ML Engineer"
+    name: "David Kim"
+    responsibility: "Model development, training, evaluation"
+    phase_coverage: "4-5"
+  - role: "UX / Product"
+    name: "Aisha Patel"
+    responsibility: "Agent-facing UI, triage dashboard, trust UX"
+    phase_coverage: "1,3,5"
+  - role: "RAI Reviewer"
+    name: "TBD (Ethics Board)"
+    responsibility: "Responsible AI review at each phase gate"
+    phase_coverage: "1-6"
+  - role: "Eng Lead / Sponsor"
+    name: "Carlos Rivera"
+    responsibility: "Executive sponsor, go/no-go authority"
+    phase_coverage: "1,5-6"
+
+responsible_ai:
+  who_could_be_harmed:
+    - "Customers whose tickets are deprioritized due to language bias (non-English speakers, customers using informal language)"
+    - "Support agents whose performance metrics may be affected by model errors"
+  bias_risks:
+    - "Training data skewed toward English-language tickets from US customers"
+    - "Underrepresentation of APAC and LATAM product issues"
+  privacy_pii:
+    - "Tickets contain customer names, email addresses, and potentially account details"
+    - "PII must be masked before model training"
+    - "No PII stored in model artifacts"
+  fairness:
+    - "Classification accuracy will be evaluated per-language and per-product line to ensure equitable service"
+    - "Disparate misroute rates across customer segments will trigger review"
+  transparency:
+    - "Agents will see the model's suggested category, confidence score, and top contributing phrases"
+    - "Customers will not interact with the model directly"
+
+risks:
+  - risk_id: "R-001"
+    description: "Insufficient labeled training data for new product lines"
+    likelihood: "M"
+    impact: "H"
+    mitigation: "Prioritize labeling for new product lines in Phase 2; engage domain SMEs for label review"
+    owner: "Priya Sharma"
+  - risk_id: "R-002"
+    description: "Language bias leading to lower accuracy for non-English tickets"
+    likelihood: "H"
+    impact: "H"
+    mitigation: "Stratified evaluation by language; multilingual training data augmentation; Facets audit"
+    owner: "David Kim"
+  - risk_id: "R-003"
+    description: "Agent resistance to AI-assisted triage"
+    likelihood: "M"
+    impact: "M"
+    mitigation: "Early agent involvement in design (Phase 3); pilot with volunteer team; transparent override metrics"
+    owner: "Aisha Patel"
+  - risk_id: "R-004"
+    description: "P1 ticket misclassification causing delayed response to critical issues"
+    likelihood: "L"
+    impact: "H"
+    mitigation: "P1/P2 tickets require human confirmation; fallback to manual triage if confidence < 0.8"
+    owner: "James Okafor"
+
+timeline_plot:
+  width_pt: 585
+  height_pt: 271
+  dpi: 300
+
+timeline:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    target_start: "2026-03-03"
+    target_end: "2026-03-14"
+    gate_owner: "PM"
+  - phase: 2
+    description: "Data and Feasibility"
+    target_start: "2026-03-17"
+    target_end: "2026-04-11"
+    gate_owner: "Tech Lead"
+  - phase: 3
+    description: "Design and Architecture"
+    target_start: "2026-04-14"
+    target_end: "2026-05-01"
+    gate_owner: "Tech Lead"
+  - phase: 4
+    description: "Build and Iteration"
+    target_start: "2026-05-04"
+    target_end: "2026-07-10"
+    gate_owner: "PM"
+  - phase: 5
+    description: "Evaluation and Validation"
+    target_start: "2026-07-13"
+    target_end: "2026-07-31"
+    gate_owner: "Eng Lead"
+  - phase: 6
+    description: "Launch and Post-Launch"
+    target_start: "2026-08-03"
+    target_end: "2026-08-28"
+    gate_owner: "PM"
+
+phase_1_gate:
+  problem_statement_approved: false
+  ai_applicability_justified: false
+  success_metrics_defined: false
+  rai_checklist_completed: false
+  roles_confirmed: false
+  sponsor_signoff: false
+
+approvals:
+  - role: "PM"
+    name: "Maria Chen"
+    date: ""
+    approved: false
+  - role: "Tech Lead"
+    name: "James Okafor"
+    date: ""
+    approved: false
+  - role: "Eng Lead / Sponsor"
+    name: "Carlos Rivera"
+    date: ""
+    approved: false

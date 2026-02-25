@@ -1,0 +1,255 @@
+# AI Project Kick-Off Document — Template Schema
+# Keys map directly to [placeholder] tokens in the Google Doc template.
+# Auto-population reads this YAML → does find-and-replace on a doc copy.
+#
+# Google Doc template (v3):
+#   https://docs.google.com/document/d/15GYfXG6VLb2RjxFKmXisOKGPtaXey6FVlyywS1yphEI/edit
+#
+# ============================================================================
+# KEY MAPPING: yaml_key → [Google Doc Placeholder]
+# ============================================================================
+#
+# HEADER
+#   metadata.project_name              → [Project Name]
+#   metadata.authors.pm                → [PM_Name]
+#   metadata.authors.tech_lead         → [Tech_Lead]
+#   metadata.authors.additional        → [Additional_Authors]
+#   metadata.status                    → Dropdown smart chip (Draft | In Review | Approved)
+#                                         NOT auto-populated; selected manually in doc.
+#   metadata.date                      → Date smart chip (below title)
+#                                         NOT auto-populated; updated when status changes.
+#
+# 1. PROBLEM STATEMENT (AI-generated paragraph)
+#   problem_statement.*                → [Problem_Statement]
+#   The four fields below are used as context for AI to generate a cohesive
+#   problem statement paragraph. They are NOT inserted individually.
+#     - target_user:          Who experiences this problem?
+#     - problem_description:  What is the problem? What evidence supports it?
+#     - current_state:        How is the problem handled today? What are the pain points?
+#     - desired_outcome:      What does success look like from the user's perspective?
+#
+# 2. AI JUSTIFICATION
+#   ai_justification.ai_vs_rule_based.solvable_with_rules + .explanation
+#                                      → [Could this be solved with deterministic rules or heuristics? Yes / No - explain]
+#   ai_justification.ai_vs_rule_based.why_ai_warranted
+#                                      → [Why AI is warranted: e.g., pattern complexity, scale, personalization needs]
+#   ai_justification.automation_vs_augmentation.approach
+#                                      → [Approach: Full automation / Human-in-the-loop augmentation / Hybrid]
+#   ai_justification.automation_vs_augmentation.rationale
+#                                      → [Rationale: Why this approach fits the use case and risk profile]
+#
+# 3. SUCCESS METRICS (tabular — rows inserted into tables via batchUpdate)
+#   success_metrics.technical[]        → rows in "Technical Metrics" table
+#   success_metrics.human_centered[]   → rows in "Human-Centered Metrics" table
+#   success_metrics.business[]         → rows in "Business Metrics" table
+#   (Each entry: Metric ID | metric | threshold | action_if_breached)
+#   Metric ID convention: T1, T2... (technical) | H1, H2... (human-centered) | B1, B2... (business)
+#
+# 4. ROLES AND RESPONSIBILITIES
+#   roles[role="PM"].name              → [PM_Name]
+#   roles[role="Tech Lead"].name       → [TechLead_Name]
+#   roles[role="Data Engineer"].name   → [DataEng_Name]
+#   roles[role="ML Engineer"].name     → [ML_Name]
+#   roles[role="UX / Product"].name    → [UX_Name]
+#   roles[role="RAI Reviewer"].name    → [RAI_Name]
+#   roles[role="Eng Lead"].name        → [EngLead_Name]
+#
+# 5. RESPONSIBLE AI (array fields → bullet lists, joined with \n)
+#   responsible_ai.who_could_be_harmed[] → [Identify affected populations and potential harms]
+#   responsible_ai.bias_risks[]          → [Known or suspected biases in data or outcomes]
+#   responsible_ai.privacy_pii[]         → [What personal data is involved? How will it be protected?]
+#   responsible_ai.fairness[]            → [How will equitable outcomes be ensured across user groups?]
+#   responsible_ai.transparency[]        → [Will users know AI is involved? How?]
+#
+# 6. RISKS AND MITIGATIONS (tabular — rows inserted into table via batchUpdate)
+#   risks[]                            → rows in "Risks and Mitigations" table
+#   (Each entry: Risk ID | description | likelihood | impact | mitigation | owner)
+#   Risk ID convention: R-001, R-002, ...
+#
+# 7. HIGH-LEVEL TIMELINE (tabular — date cells populated via find-and-replace)
+#   Phase rows are pre-populated in the template table; only dates are filled.
+#   timeline[phase=1].target_start     → [Ph1_Start]
+#   timeline[phase=1].target_end       → [Ph1_End]
+#   timeline[phase=2].target_start     → [Ph2_Start]
+#   timeline[phase=2].target_end       → [Ph2_End]
+#   timeline[phase=3].target_start     → [Ph3_Start]
+#   timeline[phase=3].target_end       → [Ph3_End]
+#   timeline[phase=4].target_start     → [Ph4_Start]
+#   timeline[phase=4].target_end       → [Ph4_End]
+#   timeline[phase=5].target_start     → [Ph5_Start]
+#   timeline[phase=5].target_end       → [Ph5_End]
+#   timeline[phase=6].target_start     → [Ph6_Start]
+#   timeline[phase=6].target_end       → [Ph6_End]
+#
+#   Timeline Plot (auto-population pipeline):
+#   1. Generate PNG:  tools/generate_gantt.py <yaml> --dpi timeline_plot.dpi
+#   2. Upload PNG to Google Drive (resumable upload)
+#   3. Set public read permissions on uploaded file
+#   4. replaceAllText [Phase_Timeline_Plot] → "" (clear placeholder)
+#   5. replaceAllText [Phase_Timeline_Plot_Title] → "{project_name} — High-Level Timeline"
+#   6. insertInlineImage at cleared index using timeline_plot.width_pt / height_pt
+#
+#   timeline_plot.width_pt             → Inline image width in points
+#   timeline_plot.height_pt            → Inline image height in points
+#   timeline_plot.dpi                  → Chart render DPI
+#
+# 8. PHASE 1 GATE CRITERIA
+#   phase_1_gate.*                     → checkbox state (not auto-populated in doc)
+#
+# 9. APPROVALS
+#   approvals[role="PM"].name          → [PM_Approver]
+#   approvals[role="PM"].date          → Date smart chip (NOT auto-populated; set by approver)
+#   approvals[role="Tech Lead"].name   → [TechLead_Approver]
+#   approvals[role="Tech Lead"].date   → Date smart chip (NOT auto-populated; set by approver)
+#   approvals[role="Eng Lead"].name    → [EngLead_Approver]
+#   approvals[role="Eng Lead"].date    → Date smart chip (NOT auto-populated; set by approver)
+#
+# ============================================================================
+
+---
+metadata:
+  project_name: ""
+  framework: "AI Project Model (Google PAIR-Aligned)"
+  authors:
+    pm: ""
+    tech_lead: ""
+    additional: []
+  status: "Draft"              # Draft | In Review | Approved (dropdown chip in doc — not auto-populated)
+  date: ""                     # YYYY-MM-DD (date chip in doc — not auto-populated)
+  document_id: ""              # Google Docs ID once created
+
+problem_statement:
+  target_user: ""
+  problem_description: ""
+  current_state: ""
+  desired_outcome: ""
+
+ai_justification:
+  ai_vs_rule_based:
+    solvable_with_rules: null   # true | false
+    explanation: ""
+    why_ai_warranted: ""        # e.g., pattern complexity, scale, personalization
+  automation_vs_augmentation:
+    approach: ""                # full_automation | human_in_the_loop | hybrid
+    rationale: ""
+
+success_metrics:
+  technical:                           # IDs: T1, T2, T3, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+  human_centered:                      # IDs: H1, H2, H3, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+  business:                            # IDs: B1, B2, B3, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+
+roles:
+  - role: "PM (Accountable)"
+    name: ""
+    responsibility: "Overall project delivery, stakeholder alignment"
+    phase_coverage: "1-6"
+  - role: "Tech Lead"
+    name: ""
+    responsibility: "Architecture, technical decisions, feasibility"
+    phase_coverage: "2-5"
+  - role: "Data Engineer"
+    name: ""
+    responsibility: "Data pipelines, data quality, Data Cards"
+    phase_coverage: "2-5"
+  - role: "ML Engineer"
+    name: ""
+    responsibility: "Model development, training, evaluation"
+    phase_coverage: "4-5"
+  - role: "UX / Product"
+    name: ""
+    responsibility: "User research, interaction design, trust UX"
+    phase_coverage: "1,3,5"
+  - role: "RAI Reviewer"
+    name: ""
+    responsibility: "Responsible AI review at each phase gate"
+    phase_coverage: "1-6"
+  - role: "Eng Lead / Sponsor"
+    name: ""
+    responsibility: "Executive sponsor, go/no-go authority"
+    phase_coverage: "1,5-6"
+
+responsible_ai:
+  who_could_be_harmed: []          # Array of bullet items
+  bias_risks: []                   # Array of bullet items
+  privacy_pii: []                  # Array of bullet items
+  fairness: []                     # Array of bullet items
+  transparency: []                 # Array of bullet items
+
+risks:
+  - risk_id: ""
+    description: ""
+    likelihood: ""              # H | M | L
+    impact: ""                  # H | M | L
+    mitigation: ""
+    owner: ""
+
+timeline_plot:
+  width_pt: 585                    # Inline image width in points (Google Docs)
+  height_pt: 271                   # Inline image height in points (Google Docs)
+  dpi: 300                         # Chart render DPI
+
+timeline:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    target_start: ""            # YYYY-MM-DD
+    target_end: ""              # YYYY-MM-DD
+    gate_owner: "PM"
+  - phase: 2
+    description: "Data and Feasibility"
+    target_start: ""
+    target_end: ""
+    gate_owner: "Tech Lead"
+  - phase: 3
+    description: "Design and Architecture"
+    target_start: ""
+    target_end: ""
+    gate_owner: "Tech Lead"
+  - phase: 4
+    description: "Build and Iteration"
+    target_start: ""
+    target_end: ""
+    gate_owner: "PM"
+  - phase: 5
+    description: "Evaluation and Validation"
+    target_start: ""
+    target_end: ""
+    gate_owner: "Eng Lead"
+  - phase: 6
+    description: "Launch and Post-Launch"
+    target_start: ""
+    target_end: ""
+    gate_owner: "PM"
+
+phase_1_gate:
+  problem_statement_approved: false
+  ai_applicability_justified: false
+  success_metrics_defined: false
+  rai_checklist_completed: false
+  roles_confirmed: false
+  sponsor_signoff: false
+
+approvals:
+  - role: "PM"
+    name: ""
+    date: ""
+    approved: false
+  - role: "Tech Lead"
+    name: ""
+    date: ""
+    approved: false
+  - role: "Eng Lead / Sponsor"
+    name: ""
+    date: ""
+    approved: false
