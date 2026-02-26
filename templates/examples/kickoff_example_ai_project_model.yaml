@@ -1,0 +1,192 @@
+# AI Project Kick-Off — AI Project Model: PM Workflow Framework
+# Generated from templates/kickoff_template.yaml
+
+---
+metadata:
+  project_name: "AI Project Model — PM Workflow Framework"
+  framework: "AI Project Model (Google PAIR-Aligned)"
+  authors:
+    pm: "Jason Garcia"
+    tech_lead: "Sarah Mitchell"
+    additional: ["Ryan Torres"]
+  status: "Draft"
+  date: "2026-02-25"
+  document_id: ""
+
+problem_statement:
+  target_user: "PMs and engineers managing AI product development from discovery through post-launch"
+  problem_description: "AI projects require specialized artifacts (data governance docs, RAI checklists, model evaluation reports) that generic PM frameworks do not address. PMs create documents from scratch each cycle, leading to inconsistent quality, missed responsible AI checkpoints, and 40%+ of planning time spent on boilerplate rather than substance."
+  current_state: "Teams use ad-hoc templates or adapt generic PM frameworks (Agile, SDLC) that lack AI-specific concerns — data provenance, bias auditing, explainability design, and phased automation. There is no structured handoff between project phases, and artifacts are not connected (roles re-entered, metrics redefined, risks duplicated across documents)."
+  desired_outcome: "A PM fills out a single structured YAML file and generates all project artifacts — kick-off doc, requirements definition, milestone tracker, and review decks — with data flowing between artifacts, PAIR best practices embedded, and phase gates enforced."
+
+ai_justification:
+  ai_vs_rule_based:
+    solvable_with_rules: false
+    explanation: "Template population (find-and-replace) is rule-based, but several workflow steps require AI: generating cohesive problem statement paragraphs from structured context, adapting content framing for different audiences (engineering vs. leadership), and validating artifact completeness against the PAIR framework."
+    why_ai_warranted: "Natural language generation for problem statements and narrative sections, context-aware content adaptation across artifact types, and intelligent validation of framework compliance exceed what static templates can deliver."
+  automation_vs_augmentation:
+    approach: "hybrid"
+    rationale: "Structural population (placeholder replacement, table insertion, chart generation) is fully automated. Content generation (problem statements, risk narratives) is AI-augmented with PM review before insertion. PMs retain full control over YAML input and can override any generated content."
+
+success_metrics:
+  technical:
+    - id: "T1"
+      metric: "Placeholder replacement accuracy"
+      threshold: "100% (zero missed placeholders per artifact)"
+      action_if_breached: "Audit placeholder mapping; fix YAML schema or template mismatches"
+    - id: "T2"
+      metric: "Skill execution success rate"
+      threshold: ">= 95% across all artifacts"
+      action_if_breached: "Review error logs; add retry logic or improve API error handling"
+  human_centered:
+    - id: "H1"
+      metric: "Time to generate full artifact set vs. manual creation"
+      threshold: ">= 75% reduction"
+      action_if_breached: "Profile bottlenecks in skill workflow; optimize API call batching"
+    - id: "H2"
+      metric: "PM satisfaction score (usability survey)"
+      threshold: ">= 4.0 / 5.0"
+      action_if_breached: "Conduct PM interviews; simplify YAML schema or add guided input mode"
+  business:
+    - id: "B1"
+      metric: "Artifact consistency (cross-artifact data match rate)"
+      threshold: ">= 98% (roles, metrics, timeline match across all docs)"
+      action_if_breached: "Audit shared YAML data flow; fix cross-artifact population logic"
+    - id: "B2"
+      metric: "Framework adoption (projects using full artifact set)"
+      threshold: ">= 3 projects in first quarter post-launch"
+      action_if_breached: "Gather user feedback; reduce onboarding friction; add project-init wizard"
+
+roles:
+  - role: "PM (Accountable)"
+    name: "Jason Garcia"
+    responsibility: "Overall project delivery, framework design, stakeholder alignment"
+    phase_coverage: "1-6"
+  - role: "Tech Lead"
+    name: "Sarah Mitchell"
+    responsibility: "Architecture, Google API integrations, script design"
+    phase_coverage: "2-5"
+  - role: "Data Engineer"
+    name: "Ryan Torres"
+    responsibility: "API pipelines, YAML schema design, data flow between artifacts"
+    phase_coverage: "2-5"
+  - role: "ML Engineer"
+    name: "Kevin Nakamura"
+    responsibility: "Claude Code skill development, prompt engineering, AI content generation"
+    phase_coverage: "4-5"
+  - role: "UX / Product"
+    name: "Diana Lee"
+    responsibility: "Google Workspace template design, artifact layout, PM-facing UX"
+    phase_coverage: "1,3,5"
+  - role: "RAI Reviewer"
+    name: "TBD"
+    responsibility: "Responsible AI review — ensure generated content avoids bias and maintains accuracy"
+    phase_coverage: "1-6"
+  - role: "Eng Lead / Sponsor"
+    name: "Marcus Wright"
+    responsibility: "Executive sponsor, go/no-go authority at phase gates"
+    phase_coverage: "1,5-6"
+
+responsible_ai:
+  who_could_be_harmed:
+    - "PMs who rely on AI-generated problem statements or risk narratives without sufficient review — inaccurate framing could misalign teams"
+    - "Stakeholders who receive leadership decks with AI-generated summaries that oversimplify or misrepresent project status"
+    - "Teams working on non-standard AI projects where a one-size-fits-all framework may not capture unique requirements"
+  bias_risks:
+    - "Framework design reflects PAIR Guidebook conventions which are optimized for consumer-facing AI products — may underserve infrastructure, research, or internal-tool AI projects"
+    - "AI-generated problem statements may adopt a solution-oriented framing bias, understating problem complexity"
+  privacy_pii:
+    - "YAML files may contain personnel names, email addresses, and project details"
+    - "Google Doc/Sheets/Slides artifacts are stored in the user's Google Workspace — access governed by their org policies"
+    - "No project data is sent to external services beyond Google APIs and Claude Code"
+  fairness:
+    - "Framework templates will be tested across multiple project types (consumer AI, internal tooling, data infrastructure) to ensure broad applicability"
+    - "YAML schema will support optional sections so teams can skip irrelevant fields without penalty"
+  transparency:
+    - "All AI-generated content (problem statements, narratives) is clearly labeled in the skill workflow — PM reviews before insertion"
+    - "Claude Code skills are open-source and inspectable in the project repo"
+
+risks:
+  - risk_id: "R-001"
+    description: "Google Docs/Sheets/Slides API breaking changes or rate limits disrupt artifact generation"
+    likelihood: "L"
+    impact: "H"
+    mitigation: "Pin API versions; implement retry with backoff; maintain offline YAML as source of truth"
+    owner: "Sarah Mitchell"
+  - risk_id: "R-002"
+    description: "Template formatting degradation from API-based text insertion and table manipulation"
+    likelihood: "M"
+    impact: "M"
+    mitigation: "Use copy-and-replace pattern (never generate from scratch); test formatting after each batch update"
+    owner: "Diana Lee"
+  - risk_id: "R-003"
+    description: "Shared YAML schema becomes too complex as artifacts are added, reducing PM usability"
+    likelihood: "M"
+    impact: "H"
+    mitigation: "Design YAML with sensible defaults and optional sections; add validation with clear error messages; consider guided input mode post-MVP"
+    owner: "Jason Garcia"
+  - risk_id: "R-004"
+    description: "Scope creep into portfolio management or external tool integrations before MVP is complete"
+    likelihood: "H"
+    impact: "M"
+    mitigation: "Enforce MVP scope (single project, Google Workspace only); track scope requests in decision log for v2 consideration"
+    owner: "Jason Garcia"
+
+timeline_plot:
+  width_pt: 585
+  height_pt: 271
+  dpi: 300
+
+timeline:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    target_start: "2026-02-10"
+    target_end: "2026-02-28"
+    gate_owner: "PM"
+  - phase: 2
+    description: "Data and Feasibility"
+    target_start: "2026-03-02"
+    target_end: "2026-03-20"
+    gate_owner: "Tech Lead"
+  - phase: 3
+    description: "Design and Architecture"
+    target_start: "2026-03-23"
+    target_end: "2026-04-17"
+    gate_owner: "Tech Lead"
+  - phase: 4
+    description: "Build and Iteration"
+    target_start: "2026-04-20"
+    target_end: "2026-06-26"
+    gate_owner: "PM"
+  - phase: 5
+    description: "Evaluation and Validation"
+    target_start: "2026-06-29"
+    target_end: "2026-07-17"
+    gate_owner: "Eng Lead"
+  - phase: 6
+    description: "Launch and Post-Launch"
+    target_start: "2026-07-20"
+    target_end: "2026-08-14"
+    gate_owner: "PM"
+
+phase_1_gate:
+  problem_statement_approved: false
+  ai_applicability_justified: false
+  success_metrics_defined: false
+  rai_checklist_completed: false
+  roles_confirmed: false
+  sponsor_signoff: false
+
+approvals:
+  - role: "PM"
+    name: "Jason Garcia"
+    date: ""
+    approved: false
+  - role: "Tech Lead"
+    name: "Sarah Mitchell"
+    date: ""
+    approved: false
+  - role: "Eng Lead / Sponsor"
+    name: "Marcus Wright"
+    date: ""
+    approved: false
