@@ -5,3 +5,7 @@ __pycache__/
 dist/
 *.png
 .env
+.venv/
+.mcp.json
+credentials.json
+token.json

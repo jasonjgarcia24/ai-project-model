@@ -26,7 +26,7 @@ import yaml
 
 
 # ---------------------------------------------------------------------------
-# Default phase colours (Google-palette inspired)
+# Default phase colors (Google-palette inspired)
 # ---------------------------------------------------------------------------
 PHASE_COLORS = {
     1: "#4285F4",  # blue
@@ -122,7 +122,7 @@ def generate_gantt(
             duration,
             bar_height,
             boxstyle="round,pad=0.02",
-            facecolor="#4285F4",
+            facecolor=color,
             edgecolor="black",
             linewidth=0.8,
             alpha=0.9,

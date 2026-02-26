@@ -12,11 +12,27 @@ templates for managing a single AI project from discovery through post-launch.
 
 ```
 ai-project-model/
-├── README.md                          # This file — project overview and index
+├── README.md
+├── .claude/
+│   └── skills/
+│       └── kickoff-populate/         # Claude Code skill for kick-off doc generation
+│           ├── SKILL.md
+│           ├── scripts/              # Python utilities (populate, table inserts, Gantt, Google API)
+│           ├── assets/               # YAML template + example
+│           └── references/           # Placeholder mapping reference
+├── templates/
+│   ├── kickoff_template.yaml         # Blank YAML schema for new projects
+│   └── examples/
+│       └── kickoff_example_support_triage.yaml
+├── tools/
+│   ├── generate_gantt.py             # Standalone Gantt chart generator
+│   ├── package_skill.py             # Skill packager (.skill file creator)
+│   └── quick_validate.py            # Skill validation utility
+├── reports/                          # Skill and project reports
 ├── research/
-│   └── PAIR_framework_research.md    # Full Google PAIR framework research notes
+│   └── PAIR_framework_research.md
 └── requirements/
-    └── requirements_definition.md    # AI Project Management Framework requirements (v0.1)
+    └── requirements_definition.md
 ```
 
 ## Framework Summary
@@ -32,9 +48,9 @@ The framework is organized into 6 project phases, each mapped to a PAIR Guideboo
 | 5 | Evaluation & Validation | Ch. 5–6: Feedback + Errors |
 | 6 | Launch & Post-Launch | Ch. 5–6 (applied) |
 
-## Planned Artifacts
+## Artifacts
 
-- [ ] Project Kick-Off Template (Phase 1)
+- [x] Project Kick-Off Template (Phase 1) — YAML schema + Claude Code skill for Google Docs auto-population
 - [ ] Requirements Definition Template (Phase 1–3)
 - [ ] Milestone & Task Tracking Framework (all phases)
 - [ ] Engineering / Tactical Review Deck template
@@ -44,8 +60,23 @@ The framework is organized into 6 project phases, each mapped to a PAIR Guideboo
 
 | Document | Version | Status |
 |----------|---------|--------|
+| Project Kick-Off Template | 1.0 | Complete |
+| Kickoff-Populate Skill | 1.0 | Complete |
 | Requirements Definition | 0.1 | Draft |
 | PAIR Framework Research | 1.0 | Complete |
+
+## Setup
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install pyyaml matplotlib google-auth google-auth-oauthlib google-api-python-client
+```
+
+For Google Docs integration, place `credentials.json` (OAuth client) in the project root, then run:
+```bash
+.venv/bin/python3 .claude/skills/kickoff-populate/scripts/google_api.py auth
+```
 
 ## References
 
