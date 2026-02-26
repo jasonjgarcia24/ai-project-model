@@ -42,7 +42,7 @@ Run the OAuth flow if `token.json` doesn't exist at the project root:
 1. **Kickoff YAML** — completed YAML following `assets/kickoff_template.yaml` schema. If none, help user fill one out using the example as reference.
 2. **Google Doc ID** — from user, CLI arg, or `metadata.document_id` in YAML. If missing, copy the template via `google_api.py copy-file`.
 
-## Workflow — 3 Phases
+## Workflow — 2 Phases
 
 **Important**: Complete one phase per response turn to avoid timeouts. After each phase, tell the user what was done and what comes next. If the user says "continue", proceed to the next phase.
 
@@ -50,7 +50,11 @@ Run the OAuth flow if `token.json` doesn't exist at the project root:
 
 ---
 
-### Phase 1: Setup + Text Replacements
+### Phase 1: Setup + Text Replacements + Gantt Prep
+
+Run two parallel tracks. Track B (Gantt) depends only on the YAML, not the doc.
+
+**Track A — Doc setup:**
 
 1. **Validate**: `$PY <skill_dir>/scripts/populate_kickoff.py <yaml> [doc_id] --validate-only`
 2. **Generate payload**: `$PY <skill_dir>/scripts/populate_kickoff.py <yaml> [doc_id]`
@@ -61,11 +65,19 @@ Run the OAuth flow if `token.json` doesn't exist at the project root:
 4. **Generate problem statement** from `problem_statement_context`: 3-5 sentences, factual, no marketing language. Add as `[Problem_Statement]` replacement to `/tmp/kickoff_text_batch.json`.
 5. **POST text replacements**: `$PY <skill_dir>/scripts/google_api.py batch-update <doc_id> /tmp/kickoff_text_batch.json`
 
-**End of Phase 1**: Report replacement count and tell user to say "continue" for table population.
+**Track B — Gantt prep (run in background, parallel with Track A):**
+
+1. **Generate chart**: `$PY <skill_dir>/scripts/generate_gantt.py <yaml> --dpi <dpi>`
+2. **Upload to Drive**: `$PY <skill_dir>/scripts/google_api.py upload-image <gantt_png_path>`
+3. **Set permissions**: `$PY <skill_dir>/scripts/google_api.py set-permissions <file_id>`
+
+Save the `file_id` and `image_uri` from the upload response for Phase 2.
+
+**End of Phase 1**: Report replacement count, confirm Gantt uploaded. Tell user to say "continue" for tables + image insertion.
 
 ---
 
-### Phase 2: Table Population
+### Phase 2: Table Population + Image Insertion
 
 1. **GET document**: `$PY <skill_dir>/scripts/google_api.py get-document <doc_id>`
 2. **Build row requests**: `$PY <skill_dir>/scripts/build_table_inserts.py /tmp/kickoff_doc.json /tmp/kickoff_table_data.json`
@@ -74,21 +86,10 @@ Run the OAuth flow if `token.json` doesn't exist at the project root:
 4. **Re-GET document**: `$PY <skill_dir>/scripts/google_api.py get-document <doc_id>` (indices shifted after row insertion)
 5. **Build cell requests**: `$PY <skill_dir>/scripts/build_table_inserts.py /tmp/kickoff_doc.json /tmp/kickoff_table_data.json`
    - Writes `/tmp/kickoff_insert_cells.json` (insertText requests, highest-to-lowest index)
-6. **POST cell insertions**: `$PY <skill_dir>/scripts/google_api.py batch-update <doc_id> /tmp/kickoff_insert_cells.json`
+6. **Build image insert**: Find the empty paragraph where `[Phase_Timeline_Plot]` was cleared in `/tmp/kickoff_doc.json`. Build an `insertInlineImage` request using the `image_uri` and dimensions from gantt config. Append it to `/tmp/kickoff_insert_cells.json`, keeping all requests sorted by descending index.
+7. **POST combined batch**: `$PY <skill_dir>/scripts/google_api.py batch-update <doc_id> /tmp/kickoff_insert_cells.json`
 
-**End of Phase 2**: Report rows inserted + cells populated. Tell user to say "continue" for Gantt chart.
-
----
-
-### Phase 3: Gantt Chart
-
-1. **Generate chart**: `$PY <skill_dir>/scripts/generate_gantt.py <yaml> --dpi <dpi>`
-2. **Upload to Drive**: `$PY <skill_dir>/scripts/google_api.py upload-image <gantt_png_path>`
-3. **Set permissions**: `$PY <skill_dir>/scripts/google_api.py set-permissions <file_id>`
-4. **GET document**: `$PY <skill_dir>/scripts/google_api.py get-document <doc_id>` — find the empty paragraph where `[Phase_Timeline_Plot]` was cleared.
-5. **Insert image**: Build a batchUpdate JSON with `insertInlineImage` using the image URI and dimensions from gantt config, write to `/tmp/kickoff_insert_image.json`, then: `$PY <skill_dir>/scripts/google_api.py batch-update <doc_id> /tmp/kickoff_insert_image.json`
-
-**End of Phase 3**: Report final summary with doc link `https://docs.google.com/document/d/<doc_id>/edit`.
+**End of Phase 2**: Report final summary with doc link `https://docs.google.com/document/d/<doc_id>/edit`.
 
 ## Error Handling
 
