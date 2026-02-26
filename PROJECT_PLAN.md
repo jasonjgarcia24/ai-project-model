@@ -11,7 +11,7 @@
 
 A structured, AI-powered project management workflow for PMs and engineers building AI products. Aligned with Google PAIR (People + AI Research) principles, the framework guides a single AI project from discovery through post-launch with standardized artifacts, automated document generation, and phase-gated progression.
 
-The end state: a PM fills out structured YAML, and Claude Code skills generate production-ready Google Docs, Sheets, and Slides — eliminating boilerplate while enforcing best practices from the PAIR Guidebook.
+The MVP state: a PM fills out structured YAML, and Claude Code skills generate production-ready Google Docs, Sheets, and Slides — eliminating boilerplate while enforcing best practices from the PAIR Guidebook.
 
 ---
 
