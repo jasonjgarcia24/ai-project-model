@@ -119,8 +119,8 @@ Documented here to inform future artifact development:
   - [ ] Sprint cadence: Confirm 2-week default
   - [ ] RAI review ownership: PM-led with optional dedicated reviewer
   - [ ] Company SDLC alignment: Document as configurable, not prescriptive
-- [ ] Decide on shared data layer: single project-level YAML vs. per-artifact YAML
-  - Recommendation: Single `project.yaml` at project root with artifact-specific sections, so roles, timeline, and metrics are entered once and flow to all artifacts
+- [x] Decide on shared data layer: single project-level YAML vs. per-artifact YAML
+  - **Resolved:** Single `project.yaml` at project root with artifact-specific sections. Roles, timeline, and metrics are entered once and flow to all artifacts. Full schema design: `design/shared_yaml_schema.md`
 - [ ] Update `requirements_definition.md` to v1.0 with resolved decisions
 
 ### Phase B — Requirements Definition Template (A2)
@@ -244,7 +244,7 @@ Carried forward from the PAIR framework and applied to this project's own develo
 
 | # | Decision | Options | Recommendation | Status |
 |---|----------|---------|----------------|--------|
-| D1 | Shared project YAML vs. per-artifact YAML | Single `project.yaml` / Separate per artifact | Single YAML with artifact sections — enter data once | Pending |
+| D1 | Shared project YAML vs. per-artifact YAML | Single `project.yaml` / Separate per artifact | Single YAML with artifact sections — enter data once | **Resolved** (2026-03-02) — see `design/shared_yaml_schema.md` |
 | D2 | Tracking format | Google Sheets / External tool | Google Sheets — aligns with existing API tooling | Pending |
 | D3 | Slide deck format | Google Slides / PowerPoint | Google Slides — Zapier MCP + API available | Pending |
 | D4 | Sprint cadence default | 1-week / 2-week / configurable | 2-week default, configurable in YAML | Pending |
