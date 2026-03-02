@@ -449,14 +449,19 @@ milestones:
 
 ```yaml
 sprints:
-  - sprint_id: "S-001"           # Sprint ID
-    phase: 1                     # Which phase this sprint falls in
-    start: ""                    # YYYY-MM-DD
-    end: ""                      # YYYY-MM-DD
-    goals: []                    # List of sprint goal descriptions
+  cadence_days: 14               # Default: 14 (2 weeks). Configurable: 7, 14, 21, etc.
+  entries:
+    - sprint_id: "S-001"         # Sprint ID
+      phase: 1                   # Which phase this sprint falls in
+      start: ""                  # YYYY-MM-DD
+      end: ""                    # YYYY-MM-DD
+      goals: []                  # List of sprint goal descriptions
 ```
 
-> Sprint cadence default: 2 weeks (see D4). A3 uses sprints for the Task Board
+> Sprint cadence default: 2 weeks (D4 resolved). Configurable via `cadence_days`.
+> A3 uses `cadence_days` to validate sprint date ranges and auto-generate sprint
+> rows. A4 uses it to determine review frequency. Skills default to 14 if omitted.
+> A3 uses sprints for the Task Board
 > tab. A4 uses the current sprint for the review deck.
 
 #### `tasks` (A3)

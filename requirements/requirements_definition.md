@@ -1,9 +1,9 @@
 # AI Project Management Framework — Requirements Definition
 
-**Version:** 0.1
-**Date:** 2026-02-24
-**Status:** Draft for Review
-**Owner:** TBD
+**Version:** 1.0
+**Date:** 2026-03-02
+**Status:** Approved
+**Owner:** Jason Garcia
 **Aligned Framework:** Google PAIR (People + AI Research)
 
 ---
@@ -176,21 +176,24 @@ launch.
 
 ### 4.2 Milestone & Task Tracking Framework
 
+**Format:** Google Sheets (6 tabs) — see `design/d2_tracking_format_comparison.md`
+
 | Element | Description |
 |---------|-------------|
 | Phase Gates | 6 phase gate checklists (one per phase) with go/no-go criteria |
 | Milestone Tracker | Per-phase milestones with owner, due date, status, dependencies |
 | Task Board | Sprint-level task tracking (Backlog → In Progress → Review → Done) |
 | Resource Alignment Matrix | Personnel assignments per phase (role, % allocation, phase coverage) |
-| Risk Register | Risk ID, description, likelihood, impact, mitigation, owner |
+| Risk Register | Risk ID, description, likelihood, impact, mitigation, owner, status, review date |
 | Decision Log | Key decisions, rationale, date, decision maker |
 
 ---
 
 ### 4.3 Engineering / Tactical Review Deck
 
+**Format:** Google Slides via direct API — see `design/d3_slide_deck_format.md`
 **Audience:** Engineers, Tech Leads, PMs
-**Cadence:** Bi-weekly sprint reviews
+**Cadence:** Every sprint (default: bi-weekly, configurable via `sprints.cadence_days`)
 
 | Slide | Content |
 |-------|---------|
@@ -205,6 +208,7 @@ launch.
 
 ### 4.4 Leadership / Strategic Update Deck
 
+**Format:** Google Slides via direct API — see `design/d3_slide_deck_format.md`
 **Audience:** Directors, VPs, Stakeholders
 **Cadence:** Monthly or at phase gates
 
@@ -233,6 +237,11 @@ launch.
 | Engineering Lead / Sponsor | A | I | I | I | A | A |
 
 *R = Responsible, A = Accountable, C = Consulted, I = Informed*
+
+**RAI Review Ownership:** The PM owns RAI review at each phase gate by default. If a
+dedicated RAI reviewer is assigned (via the `roles[]` entry in `project.yaml`), they assume
+Consulted/Responsible duties per the RACI matrix above. Teams without a dedicated RAI
+function are fully supported — the PM absorbs RAI checkpoint responsibilities.
 
 ---
 
@@ -270,23 +279,48 @@ Embedded at each phase gate:
 
 - Multi-project portfolio management
 - Cross-team dependency management
-- Automated tooling integrations (JIRA, Asana, etc.)
+- External tool integrations (JIRA, Asana — Linear explored post-MVP, see GitHub #39)
 - GenAI-specific workflow extensions (planned for v1.1)
 
 ---
 
-## 9. Open Questions
+## 9. SDLC Alignment
 
-- [ ] What tooling will be used for milestone and task tracking? (JIRA, Asana, Sheets, etc.)
-- [ ] What is the target format for slide decks? (Google Slides, PowerPoint, etc.)
-- [ ] Are there existing company SDLC gates this framework must align with?
-- [ ] Who owns the RAI review function — a dedicated team or the PM?
-- [ ] What sprint cadence is assumed? (2-week sprints assumed as default)
+This framework's 6 phase gates are **self-contained** — they define the complete gate
+structure for an AI project without requiring alignment to any specific company SDLC.
+
+For organizations with existing SDLC gates (security reviews, architecture review boards,
+compliance checkpoints), those can be **mapped onto** the framework's phases by adding
+company-specific items to the `phase_gates[].criteria[]` structure in `project.yaml`.
+For example:
+- A mandatory security review could be added as a criterion under Phase 3 or Phase 5
+- A compliance sign-off could be added to the Phase 6 gate
+
+The framework is **configurable, not prescriptive** — it provides PAIR-aligned defaults
+while accommodating organizational requirements through extensible gate criteria.
 
 ---
 
-## 10. Revision History
+## 10. Resolved Decisions
+
+All open questions from v0.1 have been resolved. Full decision records are in
+`PROJECT_PLAN.md` Section 8 and the corresponding GitHub issues.
+
+| # | Question (v0.1) | Resolution | Reference |
+|---|-----------------|------------|-----------|
+| D1 | Shared project YAML vs. per-artifact | Single shared `project.yaml` | `design/shared_yaml_schema.md` |
+| D2 | Tracking format | Google Sheets (6 tabs) | `design/d2_tracking_format_comparison.md` |
+| D3 | Slide deck format | Google Slides via direct API | `design/d3_slide_deck_format.md` |
+| D4 | Sprint cadence | 2-week default, configurable via `sprints.cadence_days` | GitHub #4 |
+| D5 | RAI review ownership | PM-led with optional dedicated reviewer | GitHub #5 |
+| D6 | Shared script base | Per-artifact for now; revisit after Phase B | GitHub #6 |
+| — | Company SDLC alignment | Configurable, not prescriptive (see Section 9) | — |
+
+---
+
+## 11. Revision History
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 0.1 | 2026-02-24 | — | Initial draft from requirements discovery session |
+| 1.0 | 2026-03-02 | Jason Garcia | Resolved all open questions (D1–D6). Added SDLC alignment section. Added format and tooling decisions to artifact requirements. Added RAI ownership note to RACI. Updated status to Approved. |

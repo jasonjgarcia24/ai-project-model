@@ -108,26 +108,36 @@ Documented here to inform future artifact development:
 
 ## 6. Roadmap
 
-### Phase A — Foundation Hardening (current)
+### Phase A — Foundation Hardening (COMPLETE)
 
 **Goal:** Stabilize the requirements spec and resolve open decisions that affect all downstream artifacts.
 
+**Status:** Complete (2026-03-02)
+
+**Deliverables:**
+- Shared YAML schema design (`design/shared_yaml_schema.md`)
+- Tracking format comparison (`design/d2_tracking_format_comparison.md`)
+- Slide deck format decision (`design/d3_slide_deck_format.md`)
+- `requirements_definition.md` v1.0 (all open questions resolved)
+- 6 decision issues closed (GitHub #1–#6), requirements update closed (#7)
+- Post-MVP Linear exploration issue created (#39)
+
 **Tasks:**
-- [ ] Resolve open questions from `requirements_definition.md` Section 9:
-  - [ ] Tracking format: Google Sheets (recommended — aligns with existing tooling)
-  - [ ] Slide deck format: Google Slides (recommended — Zapier MCP tools available)
-  - [ ] Sprint cadence: Confirm 2-week default
-  - [ ] RAI review ownership: PM-led with optional dedicated reviewer
-  - [ ] Company SDLC alignment: Document as configurable, not prescriptive
+- [x] Resolve open questions from `requirements_definition.md` Section 9:
+  - [x] Tracking format: Google Sheets (**Resolved** — see `design/d2_tracking_format_comparison.md`; Linear post-MVP: #39)
+  - [x] Slide deck format: Google Slides via direct API (**Resolved** — see `design/d3_slide_deck_format.md`)
+  - [x] Sprint cadence: 2-week default, configurable via `sprints.cadence_days` (**Resolved**)
+  - [x] RAI review ownership: PM-led with optional dedicated reviewer (**Resolved**)
+  - [x] Company SDLC alignment: Document as configurable, not prescriptive
 - [x] Decide on shared data layer: single project-level YAML vs. per-artifact YAML
   - **Resolved:** Single `project.yaml` at project root with artifact-specific sections. Roles, timeline, and metrics are entered once and flow to all artifacts. Full schema design: `design/shared_yaml_schema.md`
-- [ ] Update `requirements_definition.md` to v1.0 with resolved decisions
+- [x] Update `requirements_definition.md` to v1.0 with resolved decisions (**Done** 2026-03-02)
 
-### Phase B — Requirements Definition Template (A2)
+### Phase B — Requirements Definition Template (A2) (current)
 
 **Goal:** Build the Requirements Definition artifact using the same proven pattern as kick-off.
 
-**Depends on:** Phase A (format decisions, shared data layer decision)
+**Depends on:** Phase A (format decisions, shared data layer decision) — COMPLETE
 
 **Tasks:**
 - [ ] Design the Requirements Definition Google Doc template (Phase 1–3 content):
@@ -245,11 +255,11 @@ Carried forward from the PAIR framework and applied to this project's own develo
 | # | Decision | Options | Recommendation | Status |
 |---|----------|---------|----------------|--------|
 | D1 | Shared project YAML vs. per-artifact YAML | Single `project.yaml` / Separate per artifact | Single YAML with artifact sections — enter data once | **Resolved** (2026-03-02) — see `design/shared_yaml_schema.md` |
-| D2 | Tracking format | Google Sheets / External tool | Google Sheets — aligns with existing API tooling | Pending |
-| D3 | Slide deck format | Google Slides / PowerPoint | Google Slides — Zapier MCP + API available | Pending |
-| D4 | Sprint cadence default | 1-week / 2-week / configurable | 2-week default, configurable in YAML | Pending |
-| D5 | RAI review ownership | Dedicated team / PM-led | PM-led with optional dedicated reviewer field | Pending |
-| D6 | Shared script base | One populate script per artifact / Shared library | Shared base class after A2 confirms the pattern repeats cleanly | Pending |
+| D2 | Tracking format | Google Sheets / External tool | Google Sheets — pattern consistency, YAML source of truth, 6/6 tab coverage | **Resolved** (2026-03-02) — see `design/d2_tracking_format_comparison.md`; Linear post-MVP: #39 |
+| D3 | Slide deck format | Google Slides / PowerPoint | Google Slides via direct API (not Zapier MCP) — object-ID addressing, tables, charts, images | **Resolved** (2026-03-02) — see `design/d3_slide_deck_format.md` |
+| D4 | Sprint cadence default | 1-week / 2-week / configurable | 2-week default, configurable via `sprints.cadence_days` | **Resolved** (2026-03-02) |
+| D5 | RAI review ownership | Dedicated team / PM-led | PM-led; optional dedicated reviewer via `roles[]` RAI Reviewer entry | **Resolved** (2026-03-02) |
+| D6 | Shared script base | One populate script per artifact / Shared library | Per-artifact for now; revisit after Phase B confirms pattern | **Resolved** (2026-03-02) — deferred by design |
 
 ---
 
