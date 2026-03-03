@@ -424,6 +424,35 @@ requirements:
       type: ""                    # external | internal
       owner: ""                   # Who is responsible for resolving it
       status: ""                  # open | resolved
+
+  design:                                    # PAIR Ch. 3-4: Mental Models, Explainability & Trust
+    explainability:
+      type: ""                               # general | specific_output | example_based | interaction_based
+      confidence_display: ""                 # categorical | n_best | numeric | visualization
+      content: ""                            # What is explained to users
+    user_controls: []                        # Array of control mechanism descriptions
+    onboarding: []                           # Array of onboarding elements
+    error_handling: []                       # Array of error handling strategies
+
+  privacy:                                   # User-facing data rights
+    pii_inventory: []                        # Array: what PII, where stored, encryption
+    retention_policy: ""                     # Data retention period and deletion rules
+    data_rights: ""                          # User rights: access, correction, deletion, portability
+    consent_model: ""                        # How consent is obtained and managed
+
+  compliance:                                # Regulatory requirements
+    - id: "COMP-001"
+      regulation: ""                         # GDPR | CCPA | HIPAA | SOC2 | industry-specific
+      requirement: ""                        # Specific compliance requirement
+      how_addressed: ""                      # Implementation approach
+      owner: ""                              # Responsible person
+      status: ""                             # pending | in_progress | complete | waived
+
+  safety:                                    # AI safety boundaries
+    boundaries: []                           # What the system will NOT do
+    confidence_thresholds: ""                # Below what confidence → fallback
+    human_override: ""                       # How humans can override AI decisions
+    monitoring_strategy: ""                  # How safety is monitored post-launch
 ```
 
 #### `milestones` (A3, A4, A5)
@@ -603,7 +632,15 @@ budget:
 | `timeline_plot` | R | | | | |
 | `phase_gates` | R (ph1) | | R | | R |
 | `approvals` | R | R | | | |
-| `requirements` | | R | | | |
+| `requirements.functional` | | R | | | |
+| `requirements.data` | | R | | | |
+| `requirements.model` | | R | | | |
+| `requirements.rai` | | R | | | |
+| `requirements.dependencies` | | R | | | |
+| `requirements.design` | | R | | | |
+| `requirements.privacy` | | R | | | |
+| `requirements.compliance` | | R | | | |
+| `requirements.safety` | | R | | | |
 | `milestones` | | | R | R | R |
 | `sprints` | | | R | R | |
 | `tasks` | | | R | | |
@@ -624,8 +661,10 @@ The existing `kickoff_template.yaml` continues to work as-is. The shared
 `project.yaml` is a superset:
 
 1. **Phase A (now):** Document the schema (this file). Resolve D1.
-2. **Phase B (A2):** Add `requirements` section to the schema. Build
-   `project_template.yaml` with kickoff + requirements sections.
+2. **Phase B (A2):** Add `requirements` section to the schema — includes
+   `functional`, `data`, `model`, `rai`, `dependencies` (original) plus
+   `design`, `privacy`, `compliance`, `safety` (added Phase B). Build
+   `requirements_template.yaml` with all A2-consumed sections.
 3. **Phase C (A3):** Add tracking sections (`phase_gates`, `milestones`,
    `sprints`, `tasks`, `resource_matrix`, `decisions`). Extend `risks[]`
    with lifecycle fields.

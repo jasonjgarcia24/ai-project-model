@@ -115,6 +115,22 @@ def do_batch_update(args):
     }, indent=2))
 
 
+def do_create_document(args):
+    """Create a new blank Google Doc with a title."""
+    creds = get_credentials()
+    service = build("docs", "v1", credentials=creds)
+
+    body = {"title": args.title}
+    doc = service.documents().create(body=body).execute()
+
+    doc_id = doc["documentId"]
+    print(json.dumps({
+        "doc_id": doc_id,
+        "title": doc.get("title", args.title),
+        "url": f"https://docs.google.com/document/d/{doc_id}/edit",
+    }, indent=2))
+
+
 def do_copy_file(args):
     """Copy a file in Google Drive."""
     creds = get_credentials()
@@ -185,6 +201,10 @@ def main():
     # auth
     sub.add_parser("auth", help="Run OAuth2 authorization flow")
 
+    # create-document
+    p = sub.add_parser("create-document", help="Create a new blank Google Doc")
+    p.add_argument("title", help="Document title")
+
     # get-document
     p = sub.add_parser("get-document", help="GET a Google Docs document")
     p.add_argument("doc_id", help="Google Doc ID")
@@ -212,6 +232,7 @@ def main():
 
     dispatch = {
         "auth": do_auth,
+        "create-document": do_create_document,
         "get-document": do_get_document,
         "batch-update": do_batch_update,
         "copy-file": do_copy_file,

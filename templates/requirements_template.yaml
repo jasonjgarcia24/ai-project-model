@@ -1,0 +1,298 @@
+# AI Project Requirements Definition — Template Schema
+# Keys map directly to [placeholder] tokens in the Google Doc template.
+# Auto-population reads this YAML → does find-and-replace on a doc copy.
+#
+# Google Doc template (requirements): TBD — will be created in Phase B
+#
+# ============================================================================
+# KEY MAPPING: yaml_key → [Google Doc Placeholder]
+# ============================================================================
+#
+# HEADER
+#   metadata.project_name              → [Req_Project_Name]
+#   metadata.authors.pm                → [Req_PM_Name]
+#   metadata.authors.tech_lead         → [Req_TechLead_Name]
+#   metadata.document_ids.kickoff      → [Req_Kickoff_Link]  (constructed URL)
+#   metadata.status                    → Dropdown smart chip (Draft | In Review | Approved)
+#                                         NOT auto-populated; selected manually in doc.
+#   metadata.date                      → Date smart chip
+#                                         NOT auto-populated; updated when status changes.
+#
+# 1. PROJECT CONTEXT
+#
+#   1.1 Problem Summary (AI-generated paragraph)
+#   problem_statement.*                → [Req_Problem_Summary]
+#     AI generates a 2–3 sentence recap from the four sub-fields below.
+#     They are NOT inserted individually — they provide generation context.
+#     - target_user:          Who experiences this problem?
+#     - problem_description:  What is the problem?
+#     - current_state:        How is the problem handled today?
+#     - desired_outcome:      What does success look like?
+#
+#   1.2 AI Approach
+#   ai_justification.ai_vs_rule_based.explanation
+#                                      → [Req_AI_vs_Rules]
+#   ai_justification.automation_vs_augmentation.approach
+#                                      → [Req_Approach]
+#   ai_justification.automation_vs_augmentation.rationale
+#                                      → [Req_Approach_Rationale]
+#
+#   1.3 Success Metrics Reference (AI-generated comma lists)
+#   success_metrics.technical[].metric          → [Req_Technical_Metrics_Summary]
+#   success_metrics.human_centered[].metric     → [Req_HumanCentered_Metrics_Summary]
+#   success_metrics.business[].metric           → [Req_Business_Metrics_Summary]
+#
+# 2. FUNCTIONAL REQUIREMENTS (tabular — rows inserted via batchUpdate)
+#   requirements.functional[]          → rows in "Functional Requirements" table
+#   (Each entry: ID | Requirement | Priority | Phase | Acceptance Criteria)
+#   Row marker: [FR_Row]
+#
+# 3. DATA REQUIREMENTS
+#
+#   3.1 Dataset Inventory (tabular — rows inserted via batchUpdate)
+#   requirements.data[]                → rows in "Dataset Inventory" table
+#   (Each entry: ID | Dataset | Source | Format | Size Est. | PII Handling | Labeling Strategy | Data Card)
+#   Row marker: [DR_Row]
+#
+#   3.2 Data Governance (AI-generated narrative)
+#   responsible_ai.privacy_pii[] + requirements.data[].pii_handling
+#                                      → [Req_Data_Governance]
+#
+#   3.3 Labeling Requirements (AI-generated narrative)
+#   requirements.data[].labeling_strategy
+#                                      → [Req_Labeling_Requirements]
+#
+# 4. MODEL REQUIREMENTS (tabular — rows inserted via batchUpdate)
+#   requirements.model[]               → rows in "Model Requirements" table
+#   (Each entry: ID | Requirement | Baseline | Compute Budget)
+#   Row marker: [MR_Row]
+#
+# 5. DESIGN REQUIREMENTS
+#
+#   5.1 Explainability Approach
+#   requirements.design.explainability.type            → [Req_Explain_Type]
+#   requirements.design.explainability.confidence_display → [Req_Confidence_Display]
+#   requirements.design.explainability.content         → [Req_Explain_Content]
+#
+#   5.2 User Controls (AI-generated narrative)
+#   requirements.design.user_controls[]                → [Req_User_Controls]
+#
+#   5.3 Onboarding & Mental Models (AI-generated narrative)
+#   requirements.design.onboarding[]                   → [Req_Onboarding]
+#
+#   5.4 Error Handling (AI-generated narrative)
+#   requirements.design.error_handling[]               → [Req_Error_Handling]
+#
+# 6. PRIVACY, COMPLIANCE & SAFETY
+#
+#   6.1 Privacy & Data Rights (AI-generated narrative)
+#   requirements.privacy.*             → [Req_Privacy_Data_Rights]
+#
+#   6.2 Regulatory Compliance (tabular — rows inserted via batchUpdate)
+#   requirements.compliance[]          → rows in "Regulatory Compliance" table
+#   (Each entry: ID | Regulation | Requirement | How Addressed | Owner | Status)
+#   Row marker: [COMP_Row]
+#
+#   6.3 Safety Boundaries (AI-generated narrative)
+#   requirements.safety.*              → [Req_Safety_Boundaries]
+#
+# 7. RESPONSIBLE AI REQUIREMENTS (tabular — rows inserted via batchUpdate)
+#   requirements.rai[]                 → rows in "RAI Requirements" table
+#   (Each entry: ID | Requirement | Audit Plan | Phase | Status)
+#   Row marker: [RAI_Row]
+#
+# 8. DEPENDENCIES (tabular — rows inserted via batchUpdate)
+#   requirements.dependencies[]        → rows in "Dependencies" table
+#   (Each entry: ID | Description | Type | Owner | Status)
+#   Row marker: [DEP_Row]
+#
+# 9. ACCEPTANCE CRITERIA BY PHASE GATE
+#   Phase gate checklists (Phases 1–3) are pre-populated in the template.
+#   Checkbox state is manually managed in the doc.
+#   NOT auto-populated from YAML.
+#
+# 10. TRACEABILITY MATRIX (AI-generated — rows inserted via batchUpdate)
+#   Cross-reference of requirements.*[].id × success_metrics.*[].id
+#   (Each entry: Requirement ID | Requirement (short) | Success Metric ID | Phase | Owner)
+#   Row marker: [Trace_Row]
+#
+# 11. APPROVALS
+#   approvals[role="PM"].name          → [Req_PM_Approver]
+#   approvals[role="Tech Lead"].name   → [Req_TechLead_Approver]
+#   approvals[role="Eng Lead / Sponsor"].name → [Req_EngLead_Approver]
+#   Approval dates are NOT auto-populated — set by approver via date smart chip.
+#
+# ============================================================================
+# SUMMARY
+# ============================================================================
+#
+# Text replacements:   24 placeholders
+# Table row markers:    7 tables (FR, DR, MR, RAI, DEP, COMP, Trace)
+# Auto-generated:      12 sections (Problem Summary, 3× Metrics Summaries,
+#                          Data Governance, Labeling, User Controls, Onboarding,
+#                          Error Handling, Privacy, Safety, Traceability)
+#
+# ============================================================================
+
+---
+metadata:
+  project_name: ""
+  framework: "AI Project Model (Google PAIR-Aligned)"
+  authors:
+    pm: ""
+    tech_lead: ""
+    additional: []
+  status: "Draft"              # Draft | In Review | Approved (dropdown chip in doc — not auto-populated)
+  date: ""                     # YYYY-MM-DD (date chip in doc — not auto-populated)
+  document_ids:
+    kickoff: ""                # Google Docs ID of the kickoff document
+    requirements: ""           # Google Docs ID once created (written back by skill)
+
+problem_statement:
+  target_user: ""
+  problem_description: ""
+  current_state: ""
+  desired_outcome: ""
+
+ai_justification:
+  ai_vs_rule_based:
+    solvable_with_rules: null   # true | false
+    explanation: ""
+    why_ai_warranted: ""
+  automation_vs_augmentation:
+    approach: ""                # full_automation | human_in_the_loop | hybrid
+    rationale: ""
+
+success_metrics:
+  technical:                           # IDs: T1, T2, T3, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+  human_centered:                      # IDs: H1, H2, H3, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+  business:                            # IDs: B1, B2, B3, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+
+roles:
+  - role: "PM (Accountable)"
+    name: ""
+    responsibility: "Overall project delivery, stakeholder alignment"
+    phase_coverage: "1-6"
+  - role: "Tech Lead"
+    name: ""
+    responsibility: "Architecture, technical decisions, feasibility"
+    phase_coverage: "2-5"
+  - role: "Data Engineer"
+    name: ""
+    responsibility: "Data pipelines, data quality, Data Cards"
+    phase_coverage: "2-5"
+  - role: "ML Engineer"
+    name: ""
+    responsibility: "Model development, training, evaluation"
+    phase_coverage: "4-5"
+  - role: "UX / Product"
+    name: ""
+    responsibility: "User research, interaction design, trust UX"
+    phase_coverage: "1,3,5"
+  - role: "RAI Reviewer"
+    name: ""
+    responsibility: "Responsible AI review at each phase gate"
+    phase_coverage: "1-6"
+  - role: "Eng Lead / Sponsor"
+    name: ""
+    responsibility: "Executive sponsor, go/no-go authority"
+    phase_coverage: "1,5-6"
+
+responsible_ai:
+  who_could_be_harmed: []          # Array of bullet items
+  bias_risks: []                   # Array of bullet items
+  privacy_pii: []                  # Array of bullet items
+  fairness: []                     # Array of bullet items
+  transparency: []                 # Array of bullet items
+
+requirements:
+  functional:
+    - id: ""                       # FR-001, FR-002, ...
+      requirement: ""
+      priority: ""                 # P0 (must) | P1 (should) | P2 (could) | P3 (won't)
+      acceptance_criteria: ""
+      phase: ""                    # Phase where this is delivered (1-6)
+
+  data:
+    - id: ""                       # DR-001, DR-002, ...
+      dataset_name: ""
+      source: ""
+      format: ""                   # CSV, JSON, API, database, etc.
+      size_estimate: ""
+      pii_handling: ""             # How PII is handled (masked, encrypted, excluded)
+      labeling_strategy: ""        # How labels are produced (manual, semi-auto, etc.)
+      data_card_ref: ""            # Link or path to the Data Card document
+
+  model:
+    - id: ""                       # MR-001, MR-002, ...
+      constraint: ""               # Architecture constraint or requirement
+      baseline: ""                 # Performance baseline to beat
+      compute_budget: ""           # Compute limits (GPU hours, cost ceiling, etc.)
+
+  design:
+    explainability:
+      type: ""                     # general | specific_output | example_based | interaction_based
+      confidence_display: ""       # categorical | n_best | numeric | visualization
+      content: ""                  # What is explained to users
+    user_controls: []              # Array of control mechanism descriptions
+    onboarding: []                 # Array of onboarding elements
+    error_handling: []             # Array of error handling strategies
+
+  privacy:
+    pii_inventory: []              # Array: what PII, where stored, encryption
+    retention_policy: ""           # Data retention period and deletion rules
+    data_rights: ""                # User rights: access, correction, deletion, portability
+    consent_model: ""              # How consent is obtained and managed
+
+  compliance:
+    - id: ""                       # COMP-001, COMP-002, ...
+      regulation: ""               # GDPR | CCPA | HIPAA | SOC2 | industry-specific
+      requirement: ""              # Specific compliance requirement
+      how_addressed: ""            # Implementation approach
+      owner: ""                    # Responsible person
+      status: ""                   # pending | in_progress | complete | waived
+
+  safety:
+    boundaries: []                 # What the system will NOT do
+    confidence_thresholds: ""      # Below what confidence → fallback
+    human_override: ""             # How humans can override AI decisions
+    monitoring_strategy: ""        # How safety is monitored post-launch
+
+  rai:
+    - id: ""                       # RAI-001, RAI-002, ...
+      requirement: ""
+      audit_plan: ""               # How compliance will be verified
+      phase: ""                    # Phase where this is enforced (1-6)
+
+  dependencies:
+    - id: ""                       # DEP-001, DEP-002, ...
+      description: ""
+      type: ""                     # external | internal
+      owner: ""                    # Who is responsible for resolving it
+      status: ""                   # open | resolved
+
+approvals:
+  - role: "PM"
+    name: ""
+    date: ""                       # Not auto-populated (set by approver)
+    approved: false
+  - role: "Tech Lead"
+    name: ""
+    date: ""
+    approved: false
+  - role: "Eng Lead / Sponsor"
+    name: ""
+    date: ""
+    approved: false
