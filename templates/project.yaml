@@ -1,0 +1,593 @@
+# ==============================================================================
+# AI Project Model — Unified Project YAML
+# ==============================================================================
+#
+# This is the single source of truth for an AI project managed with the
+# AI Project Model framework (Google PAIR-aligned). Fill this file out once,
+# and all 5 artifact skills read from it:
+#
+#   A1  kickoff-populate          -> Google Doc (kick-off document)
+#   A2  requirements-populate     -> Google Doc (requirements definition)
+#   A3  tracking-populate         -> Google Sheets (milestone & task tracking)
+#   A4  eng-review-populate       -> Google Slides (sprint review deck)
+#   A5  leadership-review-populate -> Google Slides (strategic update deck)
+#
+# Section legend:
+#   [A1]       = consumed by kickoff
+#   [A2]       = consumed by requirements
+#   [A3]       = consumed by tracking
+#   [A4]       = consumed by eng review
+#   [A5]       = consumed by leadership review
+#   [SHARED]   = consumed by multiple artifacts (listed after tag)
+#
+# Schema reference: design/shared_yaml_schema.md
+#
+# ==============================================================================
+
+---
+
+# ============================================================================
+# METADATA  [SHARED: A1, A2, A3, A4, A5]
+# ============================================================================
+# Core project identification. Every artifact reads this section.
+
+metadata:
+  project_name: ""                              # Human-readable project name
+  framework: "AI Project Model (Google PAIR-Aligned)"
+  authors:
+    pm: ""                                      # Project manager name
+    tech_lead: ""                               # Technical lead name
+    additional: []                              # Other authors (array of strings)
+  status: "Draft"                               # Draft | In Review | Approved (not auto-populated)
+  date: ""                                      # YYYY-MM-DD (not auto-populated)
+  document_ids:                                 # Google Workspace IDs — written back by each skill
+    kickoff: ""                                 # Google Docs ID (A1)
+    requirements: ""                            # Google Docs ID (A2)
+    tracking: ""                                # Google Sheets ID (A3)
+    eng_review: ""                              # Google Slides ID (A4)
+    leadership_review: ""                       # Google Slides ID (A5)
+
+# ============================================================================
+# PROBLEM STATEMENT  [A1]
+# ============================================================================
+# Used as context for AI-generated problem statement paragraph in the kickoff
+# doc. Also provides context for the requirements problem summary (A2).
+
+problem_statement:
+  target_user: ""                               # Who experiences this problem?
+  problem_description: ""                       # What is the problem? What evidence?
+  current_state: ""                             # How is the problem handled today?
+  desired_outcome: ""                           # What does success look like?
+
+# ============================================================================
+# AI JUSTIFICATION  [A1, A2]
+# ============================================================================
+# PAIR Ch.1: Why AI is warranted over rule-based approaches.
+
+ai_justification:
+  ai_vs_rule_based:
+    solvable_with_rules: null                   # true | false
+    explanation: ""                             # Why rules are insufficient
+    why_ai_warranted: ""                        # Pattern complexity, scale, personalization
+  automation_vs_augmentation:
+    approach: ""                                # full_automation | human_in_the_loop | hybrid
+    rationale: ""                               # Why this approach fits the risk profile
+
+# ============================================================================
+# SUCCESS METRICS  [SHARED: A1, A3, A4, A5]
+# ============================================================================
+# PAIR's threshold-based template:
+# "If {metric} for {feature} {drops below / goes above} {threshold}, we will {action}."
+# Three dimensions required.
+
+success_metrics:
+  technical:                                    # IDs: T1, T2, T3, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+  human_centered:                               # IDs: H1, H2, H3, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+  business:                                     # IDs: B1, B2, B3, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+
+# ============================================================================
+# ROLES  [SHARED: A1, A2, A3, A4, A5]
+# ============================================================================
+# 7 standard roles. A3 seeds the Resource Matrix from this section.
+
+roles:
+  - role: "PM (Accountable)"
+    name: ""
+    responsibility: "Overall project delivery, stakeholder alignment"
+    phase_coverage: "1-6"
+  - role: "Tech Lead"
+    name: ""
+    responsibility: "Architecture, technical decisions, feasibility"
+    phase_coverage: "2-5"
+  - role: "Data Engineer"
+    name: ""
+    responsibility: "Data pipelines, data quality, Data Cards"
+    phase_coverage: "2-5"
+  - role: "ML Engineer"
+    name: ""
+    responsibility: "Model development, training, evaluation"
+    phase_coverage: "4-5"
+  - role: "UX / Product"
+    name: ""
+    responsibility: "User research, interaction design, trust UX"
+    phase_coverage: "1,3,5"
+  - role: "RAI Reviewer"
+    name: ""
+    responsibility: "Responsible AI review at each phase gate"
+    phase_coverage: "1-6"
+  - role: "Eng Lead / Sponsor"
+    name: ""
+    responsibility: "Executive sponsor, go/no-go authority"
+    phase_coverage: "1,5-6"
+
+# ============================================================================
+# RESPONSIBLE AI  [SHARED: A1, A2, A5]
+# ============================================================================
+# PAIR Ch.2 + Google AI Principles. A2 expands into detailed RAI requirements.
+# A5 summarizes RAI status per area.
+
+responsible_ai:
+  who_could_be_harmed: []                       # Array of bullet items
+  bias_risks: []                                # Array of bullet items
+  privacy_pii: []                               # Array of bullet items
+  fairness: []                                  # Array of bullet items
+  transparency: []                              # Array of bullet items
+
+# ============================================================================
+# RISKS  [SHARED: A1, A3, A4, A5]
+# ============================================================================
+# A1 uses the basic fields (risk_id, description, likelihood, impact, mitigation, owner).
+# A3 extends with lifecycle fields (status, category, date_identified, date_resolved).
+# A4/A5 filter by status for active risk display.
+#
+# Note: A1 uses H/M/L for likelihood and impact.
+# A3 maps these to 1-5 numeric scale (H=4, M=3, L=2).
+
+risks:
+  - risk_id: ""                                 # R-001, R-002, ...
+    description: ""
+    category: ""                                # Technical | Data | Resource | Schedule | RAI | External
+    likelihood: ""                              # H | M | L (kickoff/reviews) or 1-5 (tracking)
+    impact: ""                                  # H | M | L (kickoff/reviews) or 1-5 (tracking)
+    mitigation: ""
+    owner: ""
+    status: "Open"                              # Open | Mitigating | Closed
+    date_identified: ""                         # YYYY-MM-DD
+    date_resolved: ""                           # YYYY-MM-DD
+
+# ============================================================================
+# TIMELINE  [SHARED: A1, A3, A4, A5]
+# ============================================================================
+# 6 PAIR-mapped project phases with target dates.
+
+timeline:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    target_start: ""                            # YYYY-MM-DD
+    target_end: ""                              # YYYY-MM-DD
+    gate_owner: "PM"
+  - phase: 2
+    description: "Data and Feasibility"
+    target_start: ""
+    target_end: ""
+    gate_owner: "Tech Lead"
+  - phase: 3
+    description: "Design and Architecture"
+    target_start: ""
+    target_end: ""
+    gate_owner: "Tech Lead"
+  - phase: 4
+    description: "Build and Iteration"
+    target_start: ""
+    target_end: ""
+    gate_owner: "PM"
+  - phase: 5
+    description: "Evaluation and Validation"
+    target_start: ""
+    target_end: ""
+    gate_owner: "Eng Lead"
+  - phase: 6
+    description: "Launch and Post-Launch"
+    target_start: ""
+    target_end: ""
+    gate_owner: "PM"
+
+# ============================================================================
+# TIMELINE PLOT  [A1]
+# ============================================================================
+# Rendering config for the kickoff doc's inline Gantt chart.
+
+timeline_plot:
+  width_pt: 585                                 # Inline image width in points
+  height_pt: 271                                # Inline image height in points
+  dpi: 300                                      # Chart render DPI
+
+# ============================================================================
+# PHASE GATES  [SHARED: A3, A5]
+# ============================================================================
+# 6 phase gate checklists. A1 reads phase_gates[phase=1] for backwards
+# compatibility with the kickoff's Phase 1 gate. A3 uses all 6 for the
+# Phase Gates tab. A5 references gate status for strategic view.
+
+phase_gates:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    owner: ""
+    status: "pending"                           # pending | passed | blocked
+    date: ""                                    # Date gate was passed (YYYY-MM-DD)
+    criteria:
+      - id: "G1.1"
+        description: "Problem statement approved"
+        completed: false
+      - id: "G1.2"
+        description: "AI applicability justified"
+        completed: false
+      - id: "G1.3"
+        description: "Success metrics defined with measurable thresholds"
+        completed: false
+      - id: "G1.4"
+        description: "Responsible AI checklist completed"
+        completed: false
+      - id: "G1.5"
+        description: "Roles confirmed"
+        completed: false
+      - id: "G1.6"
+        description: "Sponsor sign-off"
+        completed: false
+  - phase: 2
+    description: "Data and Feasibility"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G2.1"
+        description: "Data Card(s) complete for all datasets"
+        completed: false
+      - id: "G2.2"
+        description: "Feasibility assessment signed off by Tech Lead"
+        completed: false
+      - id: "G2.3"
+        description: "Bias audit baseline established"
+        completed: false
+      - id: "G2.4"
+        description: "Data governance and PII strategy documented"
+        completed: false
+  - phase: 3
+    description: "Design and Architecture"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G3.1"
+        description: "Architecture design reviewed by Tech Lead and Eng Lead"
+        completed: false
+      - id: "G3.2"
+        description: "Explainability approach approved"
+        completed: false
+      - id: "G3.3"
+        description: "User control mechanisms defined"
+        completed: false
+      - id: "G3.4"
+        description: "Wizard of Oz prototype tested with target users"
+        completed: false
+  - phase: 4
+    description: "Build and Iteration"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G4.1"
+        description: "All milestones completed per milestone tracker"
+        completed: false
+      - id: "G4.2"
+        description: "Model meets threshold success metrics (all three dimensions)"
+        completed: false
+      - id: "G4.3"
+        description: "Feedback mechanisms functional and tested"
+        completed: false
+      - id: "G4.4"
+        description: "Code review and testing complete"
+        completed: false
+  - phase: 5
+    description: "Evaluation and Validation"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G5.1"
+        description: "Evaluation report complete"
+        completed: false
+      - id: "G5.2"
+        description: "RAI review passed (no open blockers)"
+        completed: false
+      - id: "G5.3"
+        description: "Error taxonomy audit complete"
+        completed: false
+      - id: "G5.4"
+        description: "Launch checklist signed off by all stakeholders"
+        completed: false
+  - phase: 6
+    description: "Launch and Post-Launch"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G6.1"
+        description: "Monitoring dashboards live and baselined"
+        completed: false
+      - id: "G6.2"
+        description: "Post-launch review schedule established"
+        completed: false
+      - id: "G6.3"
+        description: "Rollback plan documented and tested"
+        completed: false
+      - id: "G6.4"
+        description: "Handoff to operations/maintenance team complete"
+        completed: false
+
+# ============================================================================
+# APPROVALS  [SHARED: A1, A2]
+# ============================================================================
+# Sign-off tracking. Dates are set by approvers, not auto-populated.
+
+approvals:
+  - role: "PM"
+    name: ""
+    date: ""                                    # Not auto-populated (set by approver)
+    approved: false
+  - role: "Tech Lead"
+    name: ""
+    date: ""
+    approved: false
+  - role: "Eng Lead / Sponsor"
+    name: ""
+    date: ""
+    approved: false
+
+# ============================================================================
+# REQUIREMENTS  [A2]
+# ============================================================================
+# All requirements sections consumed exclusively by the requirements artifact.
+
+requirements:
+  # --- Functional Requirements ---
+  functional:
+    - id: ""                                    # FR-001, FR-002, ...
+      requirement: ""
+      priority: ""                              # P0 (must) | P1 (should) | P2 (could) | P3 (won't)
+      acceptance_criteria: ""
+      phase: ""                                 # Phase where this is delivered (1-6)
+
+  # --- Data Requirements ---
+  data:
+    - id: ""                                    # DR-001, DR-002, ...
+      dataset_name: ""
+      source: ""
+      format: ""                                # CSV, JSON, API, database, etc.
+      size_estimate: ""
+      pii_handling: ""                          # How PII is handled (masked, encrypted, excluded)
+      labeling_strategy: ""                     # How labels are produced (manual, semi-auto, etc.)
+      data_card_ref: ""                         # Link or path to the Data Card document
+
+  # --- Model Requirements ---
+  model:
+    - id: ""                                    # MR-001, MR-002, ...
+      constraint: ""                            # Architecture constraint or requirement
+      baseline: ""                              # Performance baseline to beat
+      compute_budget: ""                        # Compute limits (GPU hours, cost ceiling, etc.)
+
+  # --- Design Requirements (PAIR Ch. 3-4) ---
+  design:
+    explainability:
+      type: ""                                  # general | specific_output | example_based | interaction_based
+      confidence_display: ""                    # categorical | n_best | numeric | visualization
+      content: ""                               # What is explained to users
+    user_controls: []                           # Array of control mechanism descriptions
+    onboarding: []                              # Array of onboarding elements
+    error_handling: []                           # Array of error handling strategies
+
+  # --- Privacy & Data Rights ---
+  privacy:
+    pii_inventory: []                           # Array: what PII, where stored, encryption
+    retention_policy: ""                        # Data retention period and deletion rules
+    data_rights: ""                             # User rights: access, correction, deletion, portability
+    consent_model: ""                           # How consent is obtained and managed
+
+  # --- Regulatory Compliance ---
+  compliance:
+    - id: ""                                    # COMP-001, COMP-002, ...
+      regulation: ""                            # GDPR | CCPA | HIPAA | SOC2 | industry-specific
+      requirement: ""                           # Specific compliance requirement
+      how_addressed: ""                         # Implementation approach
+      owner: ""                                 # Responsible person
+      status: ""                                # pending | in_progress | complete | waived
+
+  # --- Safety Boundaries ---
+  safety:
+    boundaries: []                              # What the system will NOT do
+    confidence_thresholds: ""                   # Below what confidence -> fallback
+    human_override: ""                          # How humans can override AI decisions
+    monitoring_strategy: ""                     # How safety is monitored post-launch
+
+  # --- Responsible AI Requirements ---
+  rai:
+    - id: ""                                    # RAI-001, RAI-002, ...
+      requirement: ""
+      audit_plan: ""                            # How compliance will be verified
+      phase: ""                                 # Phase where this is enforced (1-6)
+
+  # --- Dependencies ---
+  dependencies:
+    - id: ""                                    # DEP-001, DEP-002, ...
+      description: ""
+      type: ""                                  # external | internal
+      owner: ""                                 # Who is responsible for resolving it
+      status: ""                                # open | resolved
+
+# ============================================================================
+# MILESTONES  [SHARED: A3, A4, A5]
+# ============================================================================
+# Per-phase deliverables, more granular than timeline entries.
+
+milestones:
+  - id: ""                                      # M-001, M-002, ...
+    phase: 1                                    # Which phase (1-6)
+    description: ""                             # What is being delivered
+    owner: ""                                   # Responsible person
+    due_date: ""                                # YYYY-MM-DD
+    status: ""                                  # not_started | in_progress | completed | blocked
+    dependencies: []                            # List of milestone IDs this depends on
+
+# ============================================================================
+# SPRINTS  [SHARED: A3, A4]
+# ============================================================================
+# Sprint cadence and sprint entries.
+
+sprints:
+  cadence_days: 14                              # Default: 14 (2 weeks). Configurable: 7, 14, 21, etc.
+  entries:
+    - sprint_id: ""                             # S-001, S-002, ...
+      phase: 1                                  # Which phase this sprint falls in
+      start: ""                                 # YYYY-MM-DD
+      end: ""                                   # YYYY-MM-DD
+      goals: []                                 # List of sprint goal descriptions
+
+# ============================================================================
+# TASKS  [A3]
+# ============================================================================
+# Sprint-level tasks for the Task Board tab. Most dynamic section.
+
+tasks:
+  - id: ""                                      # T-001, T-002, ... (different namespace from metrics)
+    title: ""                                   # Task title
+    description: ""                             # Task details
+    sprint_id: ""                               # Which sprint (S-001) or "backlog"
+    assignee: ""                                # Person responsible
+    status: ""                                  # backlog | in_progress | review | done
+    milestone_id: ""                            # Parent milestone (M-001, etc.)
+    priority: ""                                # P0 | P1 | P2 | P3
+    story_points: 0                             # Numeric effort estimate
+    created: ""                                 # YYYY-MM-DD
+    updated: ""                                 # YYYY-MM-DD
+
+# ============================================================================
+# RESOURCE MATRIX  [A3]
+# ============================================================================
+# Personnel allocation per phase. Seeded from roles[].
+
+resource_matrix:
+  - role: ""                                    # Matches roles[].role
+    name: ""                                    # Matches roles[].name
+    phase_allocations:                          # % allocation per phase
+      1: 0
+      2: 0
+      3: 0
+      4: 0
+      5: 0
+      6: 0
+    notes: ""
+
+# ============================================================================
+# DECISIONS  [A3]
+# ============================================================================
+# Key project decisions. Append-only log.
+
+decisions:
+  - id: ""                                      # DEC-001, DEC-002, ...
+    title: ""                                   # Short decision title
+    description: ""                             # Full decision description
+    options_considered: ""                       # Alternatives evaluated
+    decision: ""                                # What was decided
+    rationale: ""                               # Why this choice was made
+    maker: ""                                   # Who made the decision
+    date: ""                                    # YYYY-MM-DD
+    status: ""                                  # Proposed | Decided | Revisited
+
+# ============================================================================
+# SPRINT REVIEW  [A4]
+# ============================================================================
+# Updated before each sprint review. Ephemeral — overwritten each sprint.
+# Historical data lives in the generated Slides artifacts.
+
+sprint_review:
+  sprint_id: ""                                 # Which sprint this review covers (S-001, etc.)
+
+  goals_status:                                 # Sprint goals and their outcomes
+    - goal: ""
+      status: ""                                # completed | in_progress | missed
+      notes: ""                                 # Optional context
+
+  blockers:                                     # Active blockers during the sprint
+    - description: ""
+      owner: ""                                 # Who owns resolution
+      severity: ""                              # critical | major | minor
+
+  model_performance:                            # Current model metrics vs. thresholds
+    - metric_id: ""                             # References success_metrics (T1, H1, B1, etc.)
+      current_value: ""
+      vs_threshold: ""                          # above | at | below
+
+  data_pipeline:                                # Data pipeline health
+    quality_score: ""                           # e.g., "94%"
+    coverage: ""                                # e.g., "78%"
+    labeling_progress: ""                       # e.g., "65%"
+
+  next_sprint_plan:                             # Planned work for the next sprint
+    - priority: ""                              # P0 | P1 | P2
+      description: ""
+      assignee: ""
+
+# ============================================================================
+# PROJECT HEALTH  [A5]
+# ============================================================================
+# High-level project status for the leadership review.
+
+project_health:
+  rag_status: ""                                # R | A | G (Red / Amber / Green)
+  current_phase: 1                              # Active phase (1-6)
+  summary: ""                                   # 1-3 sentence executive summary
+
+# ============================================================================
+# REPORT CONFIGURATION  [A5]
+# ============================================================================
+# Leadership review report metadata.
+
+report_period: ""                               # e.g., "March 2026" or "Phase 3 Gate Review"
+problem_summary: ""                             # Executive-level problem statement (1-2 sentences)
+ai_solution_summary: ""                         # Executive-level solution description (1-2 sentences)
+
+# ============================================================================
+# ESCALATIONS  [A5]
+# ============================================================================
+# Items requiring leadership attention or decision.
+
+escalations:
+  - id: ""                                      # ESC-001, ESC-002, ...
+    description: ""                             # What needs leadership attention
+    decision_needed: ""                         # What decision is being requested
+    deadline: ""                                # YYYY-MM-DD
+    audience: ""                                # Who needs to decide (Director, VP, etc.)
+
+# ============================================================================
+# BUDGET  [A5]
+# ============================================================================
+# Financial tracking for leadership visibility.
+
+budget:
+  planned: 0                                    # Planned total spend
+  actual: 0                                     # Actual spend to date
+  forecast: 0                                   # Projected total at completion
+  currency: "USD"                               # Currency code
+  notes: ""                                     # Budget context or caveats

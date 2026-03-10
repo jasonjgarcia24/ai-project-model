@@ -1,7 +1,7 @@
 # AI Project Management Framework — Requirements Definition
 
-**Version:** 1.0
-**Date:** 2026-03-02
+**Version:** 1.1
+**Date:** 2026-03-09
 **Status:** Approved
 **Owner:** Jason Garcia
 **Aligned Framework:** Google PAIR (People + AI Research)
@@ -164,19 +164,22 @@ launch.
 
 ### 4.1 Technical Documentation
 
-| Artifact | Phase | Contents |
-|----------|-------|----------|
-| Project Kick-Off Doc | Ph. 1 | Problem statement, AI justification, success metrics, roles & responsibilities, risks, timeline |
-| Requirements Definition | Ph. 1–3 | Functional requirements, data requirements, model requirements, responsible AI requirements, acceptance criteria |
-| Data Card(s) | Ph. 2 | Dataset source, collection method, splits, PII handling, bias audit, intended use |
-| Architecture Design Doc | Ph. 3 | System diagram, component interfaces, explainability approach, control mechanisms |
-| Evaluation Report | Ph. 5 | Technical metrics, human-centered metrics, error audit, RAI findings, sign-off |
+| Artifact | Phase | Contents | Template | Skill |
+|----------|-------|----------|----------|-------|
+| Project Kick-Off Doc | Ph. 1 | Problem statement, AI justification, success metrics, roles & responsibilities, risks, timeline | `templates/kickoff_template.yaml` | `.claude/skills/kickoff-populate/` |
+| Requirements Definition | Ph. 1-3 | Functional requirements, data requirements, model requirements, responsible AI requirements, acceptance criteria | `templates/requirements_template.yaml` | `.claude/skills/requirements-populate/` |
+| Data Card(s) | Ph. 2 | Dataset source, collection method, splits, PII handling, bias audit, intended use | (project-specific, not templated in v1) | - |
+| Architecture Design Doc | Ph. 3 | System diagram, component interfaces, explainability approach, control mechanisms | (project-specific, not templated in v1) | - |
+| Evaluation Report | Ph. 5 | Technical metrics, human-centered metrics, error audit, RAI findings, sign-off | (project-specific, not templated in v1) | - |
 
 ---
 
 ### 4.2 Milestone & Task Tracking Framework
 
 **Format:** Google Sheets (6 tabs) — see `design/d2_tracking_format_comparison.md`
+**Template:** `templates/tracking_template.yaml`
+**Skill:** `.claude/skills/tracking-populate/`
+**Design spec:** `design/tracking_sheet_template_spec.md`
 
 | Element | Description |
 |---------|-------------|
@@ -192,6 +195,9 @@ launch.
 ### 4.3 Engineering / Tactical Review Deck
 
 **Format:** Google Slides via direct API — see `design/d3_slide_deck_format.md`
+**Template:** `templates/eng_review_template.yaml`
+**Skill:** `.claude/skills/eng-review-populate/`
+**Design spec:** `design/eng_review_deck_spec.md`
 **Audience:** Engineers, Tech Leads, PMs
 **Cadence:** Every sprint (default: bi-weekly, configurable via `sprints.cadence_days`)
 
@@ -209,6 +215,9 @@ launch.
 ### 4.4 Leadership / Strategic Update Deck
 
 **Format:** Google Slides via direct API — see `design/d3_slide_deck_format.md`
+**Template:** `templates/leadership_review_template.yaml`
+**Skill:** `.claude/skills/leadership-review-populate/`
+**Design spec:** `design/leadership_review_deck_spec.md`
 **Audience:** Directors, VPs, Stakeholders
 **Cadence:** Monthly or at phase gates
 
@@ -275,12 +284,13 @@ Embedded at each phase gate:
 
 ---
 
-## 8. Out of Scope (v1.0)
+## 8. Out of Scope (v1.1)
 
 - Multi-project portfolio management
 - Cross-team dependency management
 - External tool integrations (JIRA, Asana — Linear explored post-MVP, see GitHub #39)
-- GenAI-specific workflow extensions (planned for v1.1)
+- GenAI-specific workflow extensions (planned for v2.0)
+- Google Workspace template creation (templates are created manually in Google Docs/Sheets/Slides UI; skills populate them via API)
 
 ---
 
@@ -318,9 +328,25 @@ All open questions from v0.1 have been resolved. Full decision records are in
 
 ---
 
-## 11. Revision History
+## 11. Unified Data Layer
+
+All project data lives in a single `project.yaml` at the project root. Each Claude Code skill
+reads the sections it needs. Data is entered once and flows to all artifacts.
+
+- **Schema design:** `design/shared_yaml_schema.md`
+- **Unified template:** `templates/project.yaml`
+- **Unified example:** `templates/examples/project_example_support_triage.yaml`
+- **Data flow documentation:** `design/data_flow.md`
+- **Project initialization:** `.claude/skills/project-init/` (scaffolds a new project directory)
+
+For the full section-to-artifact consumption matrix, see `design/data_flow.md`.
+
+---
+
+## 12. Revision History
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 0.1 | 2026-02-24 | — | Initial draft from requirements discovery session |
-| 1.0 | 2026-03-02 | Jason Garcia | Resolved all open questions (D1–D6). Added SDLC alignment section. Added format and tooling decisions to artifact requirements. Added RAI ownership note to RACI. Updated status to Approved. |
+| 0.1 | 2026-02-24 | -- | Initial draft from requirements discovery session |
+| 1.0 | 2026-03-02 | Jason Garcia | Resolved all open questions (D1-D6). Added SDLC alignment section. Added format and tooling decisions to artifact requirements. Added RAI ownership note to RACI. Updated status to Approved. |
+| 1.1 | 2026-03-09 | Jason Garcia | All 5 artifacts implemented (A1-A5). Added template and skill cross-references to artifact sections. Added unified data layer section. Updated out-of-scope list. |
