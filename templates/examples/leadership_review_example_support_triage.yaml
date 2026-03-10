@@ -1,0 +1,375 @@
+# AI Project Leadership Review — Example: AI-Powered Support Ticket Triage
+# Monthly Update — Project in Phase 3 (Design & Architecture)
+# Generated from templates/leadership_review_template.yaml
+
+---
+metadata:
+  project_name: "AI-Powered Support Ticket Triage"
+  framework: "AI Project Model (Google PAIR-Aligned)"
+  authors:
+    pm: "Maria Chen"
+    tech_lead: "James Okafor"
+    additional: ["Priya Sharma"]
+  document_ids:
+    kickoff: "15GYfXG6VLb2RjxFKmXisOKGPtaXey6FVlyywS1yphEI"
+    requirements: "1abc2def3ghi4jkl5mno6pqr"
+    tracking: "1xyz7890abcdef1234567890"
+    eng_review: "1eng9876review5432deck10"
+    leadership_review: ""
+  presentation_id: ""
+
+# ---------------------------------------------------------------------------
+# Project Health
+# ---------------------------------------------------------------------------
+project_health:
+  rag_status: "A"
+  current_phase: 3
+  summary: "Project is in Phase 3 (Design & Architecture). Architecture design is approved. Explainability approach is under review — language bias risk in non-English tickets has elevated overall status to Amber. Phase 3 gate expected on schedule (2026-05-01)."
+
+# ---------------------------------------------------------------------------
+# Report Configuration
+# ---------------------------------------------------------------------------
+report_period: "April 2026"
+problem_summary: "Support agents spend 35% of their time manually triaging 2,000+ tickets/day. Misroutes account for 18% of tickets, adding 4+ hours to resolution time."
+ai_solution_summary: "Human-in-the-loop AI classifier that auto-suggests ticket priority (P1-P4) and specialist queue routing. Agents confirm P1/P2; P3/P4 auto-route above confidence threshold."
+
+# ---------------------------------------------------------------------------
+# Escalations
+# ---------------------------------------------------------------------------
+escalations:
+  - id: "ESC-001"
+    description: "Language bias risk requires additional multilingual training data budget ($15K for professional translation and labeling of APAC/LATAM tickets)"
+    decision_needed: "Approve incremental $15K budget for multilingual data augmentation"
+    deadline: "2026-04-25"
+    audience: "Director of Engineering"
+
+# ---------------------------------------------------------------------------
+# Budget
+# ---------------------------------------------------------------------------
+budget:
+  planned: 180000
+  actual: 62000
+  forecast: 195000
+  currency: "USD"
+  notes: "Forecast exceeds plan by $15K due to multilingual data augmentation need (ESC-001). Compute costs tracking under budget. Personnel costs on plan."
+
+# ---------------------------------------------------------------------------
+# Shared Sections
+# ---------------------------------------------------------------------------
+
+success_metrics:
+  technical:
+    - id: "T1"
+      metric: "Classification accuracy (top-1)"
+      threshold: ">= 92%"
+      action_if_breached: "Retrain with expanded labeled dataset; review misclassified categories"
+    - id: "T2"
+      metric: "Inference latency (P95)"
+      threshold: "< 500ms"
+      action_if_breached: "Optimize model serving; evaluate model distillation"
+  human_centered:
+    - id: "H1"
+      metric: "Agent override rate"
+      threshold: "<= 15%"
+      action_if_breached: "Conduct agent interviews to identify systematic misclassifications"
+    - id: "H2"
+      metric: "Agent trust score (quarterly survey)"
+      threshold: ">= 4.0 / 5.0"
+      action_if_breached: "Improve explanation UI; increase transparency on model reasoning"
+  business:
+    - id: "B1"
+      metric: "Misroute rate"
+      threshold: "<= 5% (down from 18%)"
+      action_if_breached: "Audit routing logic; expand training data for problem categories"
+    - id: "B2"
+      metric: "Average time-to-resolution"
+      threshold: ">= 25% reduction"
+      action_if_breached: "Investigate bottlenecks beyond triage (e.g., specialist capacity)"
+
+roles:
+  - role: "PM (Accountable)"
+    name: "Maria Chen"
+    responsibility: "Overall project delivery, stakeholder alignment"
+    phase_coverage: "1-6"
+  - role: "Tech Lead"
+    name: "James Okafor"
+    responsibility: "Architecture, technical decisions, feasibility"
+    phase_coverage: "2-5"
+  - role: "Data Engineer"
+    name: "Priya Sharma"
+    responsibility: "Data pipelines, data quality, Data Cards"
+    phase_coverage: "2-5"
+  - role: "ML Engineer"
+    name: "David Kim"
+    responsibility: "Model development, training, evaluation"
+    phase_coverage: "4-5"
+  - role: "UX / Product"
+    name: "Aisha Patel"
+    responsibility: "Agent-facing UI, triage dashboard, trust UX"
+    phase_coverage: "1,3,5"
+  - role: "RAI Reviewer"
+    name: "TBD (Ethics Board)"
+    responsibility: "Responsible AI review at each phase gate"
+    phase_coverage: "1-6"
+  - role: "Eng Lead / Sponsor"
+    name: "Carlos Rivera"
+    responsibility: "Executive sponsor, go/no-go authority"
+    phase_coverage: "1,5-6"
+
+phase_gates:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    owner: "PM"
+    status: "passed"
+    date: "2026-03-14"
+    criteria:
+      - id: "G1.1"
+        description: "Problem statement approved"
+        completed: true
+      - id: "G1.2"
+        description: "AI applicability justified"
+        completed: true
+      - id: "G1.3"
+        description: "Success metrics defined with measurable thresholds"
+        completed: true
+      - id: "G1.4"
+        description: "Responsible AI checklist completed"
+        completed: true
+      - id: "G1.5"
+        description: "Roles confirmed"
+        completed: true
+      - id: "G1.6"
+        description: "Sponsor sign-off"
+        completed: true
+  - phase: 2
+    description: "Data and Feasibility"
+    owner: "Tech Lead"
+    status: "passed"
+    date: "2026-04-11"
+    criteria:
+      - id: "G2.1"
+        description: "Data Card(s) complete for all datasets"
+        completed: true
+      - id: "G2.2"
+        description: "Feasibility assessment signed off by Tech Lead"
+        completed: true
+      - id: "G2.3"
+        description: "Bias audit baseline established"
+        completed: true
+      - id: "G2.4"
+        description: "Data governance and PII strategy documented"
+        completed: true
+  - phase: 3
+    description: "Design and Architecture"
+    owner: "Tech Lead"
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G3.1"
+        description: "Architecture design reviewed by Tech Lead and Eng Lead"
+        completed: true
+      - id: "G3.2"
+        description: "Explainability approach approved"
+        completed: false
+      - id: "G3.3"
+        description: "User control mechanisms defined"
+        completed: true
+      - id: "G3.4"
+        description: "Wizard of Oz prototype tested with target users"
+        completed: false
+  - phase: 4
+    description: "Build and Iteration"
+    owner: "PM"
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G4.1"
+        description: "All milestones completed per milestone tracker"
+        completed: false
+      - id: "G4.2"
+        description: "Model meets threshold success metrics (all three dimensions)"
+        completed: false
+      - id: "G4.3"
+        description: "Feedback mechanisms functional and tested"
+        completed: false
+      - id: "G4.4"
+        description: "Code review and testing complete"
+        completed: false
+  - phase: 5
+    description: "Evaluation and Validation"
+    owner: "Eng Lead"
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G5.1"
+        description: "Evaluation report complete"
+        completed: false
+      - id: "G5.2"
+        description: "RAI review passed (no open blockers)"
+        completed: false
+      - id: "G5.3"
+        description: "Error taxonomy audit complete"
+        completed: false
+      - id: "G5.4"
+        description: "Launch checklist signed off by all stakeholders"
+        completed: false
+  - phase: 6
+    description: "Launch and Post-Launch"
+    owner: "PM"
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G6.1"
+        description: "Monitoring dashboards live and baselined"
+        completed: false
+      - id: "G6.2"
+        description: "Post-launch review schedule established"
+        completed: false
+      - id: "G6.3"
+        description: "Rollback plan documented and tested"
+        completed: false
+      - id: "G6.4"
+        description: "Handoff to operations/maintenance team complete"
+        completed: false
+
+milestones:
+  - id: "M-001"
+    phase: 1
+    description: "Problem statement and AI justification approved"
+    owner: "Maria Chen"
+    due_date: "2026-03-14"
+    status: "completed"
+    dependencies: []
+  - id: "M-002"
+    phase: 2
+    description: "Data Card complete for all 5 product line datasets"
+    owner: "Priya Sharma"
+    due_date: "2026-04-11"
+    status: "completed"
+    dependencies: ["M-001"]
+  - id: "M-003"
+    phase: 2
+    description: "Feasibility assessment and baseline model evaluation"
+    owner: "James Okafor"
+    due_date: "2026-04-11"
+    status: "completed"
+    dependencies: ["M-001"]
+  - id: "M-004"
+    phase: 3
+    description: "Architecture design and explainability approach approved"
+    owner: "James Okafor"
+    due_date: "2026-05-01"
+    status: "in_progress"
+    dependencies: ["M-003"]
+  - id: "M-005"
+    phase: 4
+    description: "Multi-language classification model v1 trained"
+    owner: "David Kim"
+    due_date: "2026-06-06"
+    status: "not_started"
+    dependencies: ["M-002", "M-004"]
+  - id: "M-006"
+    phase: 4
+    description: "Model deployed to staging with CI/CD pipeline"
+    owner: "James Okafor"
+    due_date: "2026-06-20"
+    status: "not_started"
+    dependencies: ["M-005"]
+  - id: "M-007"
+    phase: 4
+    description: "Agent feedback UI integrated and tested"
+    owner: "Aisha Patel"
+    due_date: "2026-07-04"
+    status: "not_started"
+    dependencies: ["M-004"]
+  - id: "M-008"
+    phase: 5
+    description: "Full evaluation report and RAI review"
+    owner: "Maria Chen"
+    due_date: "2026-07-31"
+    status: "not_started"
+    dependencies: ["M-006", "M-007"]
+
+timeline:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    target_start: "2026-03-03"
+    target_end: "2026-03-14"
+    gate_owner: "PM"
+  - phase: 2
+    description: "Data and Feasibility"
+    target_start: "2026-03-17"
+    target_end: "2026-04-11"
+    gate_owner: "Tech Lead"
+  - phase: 3
+    description: "Design and Architecture"
+    target_start: "2026-04-14"
+    target_end: "2026-05-01"
+    gate_owner: "Tech Lead"
+  - phase: 4
+    description: "Build and Iteration"
+    target_start: "2026-05-04"
+    target_end: "2026-07-10"
+    gate_owner: "PM"
+  - phase: 5
+    description: "Evaluation and Validation"
+    target_start: "2026-07-13"
+    target_end: "2026-07-31"
+    gate_owner: "Eng Lead"
+  - phase: 6
+    description: "Launch and Post-Launch"
+    target_start: "2026-08-03"
+    target_end: "2026-08-28"
+    gate_owner: "PM"
+
+responsible_ai:
+  who_could_be_harmed:
+    - "Customers whose tickets are deprioritized due to language bias (non-English speakers, customers using informal language)"
+    - "Support agents whose performance metrics may be affected by model errors"
+  bias_risks:
+    - "Training data skewed toward English-language tickets from US customers"
+    - "Underrepresentation of APAC and LATAM product issues"
+  privacy_pii:
+    - "Tickets contain customer names, email addresses, and potentially account details"
+    - "PII must be masked before model training"
+    - "No PII stored in model artifacts"
+  fairness:
+    - "Classification accuracy will be evaluated per-language and per-product line to ensure equitable service"
+    - "Disparate misroute rates across customer segments will trigger review"
+  transparency:
+    - "Agents will see the model's suggested category, confidence score, and top contributing phrases"
+    - "Customers will not interact with the model directly"
+
+risks:
+  - risk_id: "R-001"
+    description: "Insufficient labeled training data for new product lines"
+    likelihood: "M"
+    impact: "H"
+    mitigation: "Prioritize labeling for new product lines in Phase 2; engage domain SMEs for label review"
+    owner: "Priya Sharma"
+    status: "open"
+    review_date: "2026-05-01"
+  - risk_id: "R-002"
+    description: "Language bias leading to lower accuracy for non-English tickets"
+    likelihood: "H"
+    impact: "H"
+    mitigation: "Stratified evaluation by language; multilingual training data augmentation; Facets audit"
+    owner: "David Kim"
+    status: "open"
+    review_date: "2026-05-01"
+  - risk_id: "R-003"
+    description: "Agent resistance to AI-assisted triage"
+    likelihood: "M"
+    impact: "M"
+    mitigation: "Early agent involvement in design (Phase 3); pilot with volunteer team; transparent override metrics"
+    owner: "Aisha Patel"
+    status: "open"
+    review_date: "2026-05-15"
+  - risk_id: "R-004"
+    description: "P1 ticket misclassification causing delayed response to critical issues"
+    likelihood: "L"
+    impact: "H"
+    mitigation: "P1/P2 tickets require human confirmation; fallback to manual triage if confidence < 0.8"
+    owner: "James Okafor"
+    status: "open"
+    review_date: "2026-06-01"

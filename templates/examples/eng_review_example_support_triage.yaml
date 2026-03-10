@@ -1,0 +1,281 @@
+# AI Project Engineering Review — Example: AI-Powered Support Ticket Triage
+# Sprint 3 Review (Phase 4: Build and Iteration)
+# Generated from templates/eng_review_template.yaml
+
+---
+metadata:
+  project_name: "AI-Powered Support Ticket Triage"
+  framework: "AI Project Model (Google PAIR-Aligned)"
+  authors:
+    pm: "Maria Chen"
+    tech_lead: "James Okafor"
+    additional: ["Priya Sharma"]
+  document_ids:
+    kickoff: "15GYfXG6VLb2RjxFKmXisOKGPtaXey6FVlyywS1yphEI"
+    requirements: "1abc2def3ghi4jkl5mno6pqr"
+    tracking: "1xyz7890abcdef1234567890"
+    eng_review: ""
+    leadership_review: ""
+  presentation_id: ""
+
+# ---------------------------------------------------------------------------
+# Sprint Review Data — Sprint 3
+# ---------------------------------------------------------------------------
+sprint_review:
+  sprint_id: "S-003"
+
+  goals_status:
+    - goal: "Complete multi-language tokenizer integration"
+      status: "completed"
+      notes: "Supports EN, ES, PT, FR, DE — covers 94% of ticket volume"
+    - goal: "Achieve >= 85% classification accuracy on validation set"
+      status: "completed"
+      notes: "Reached 87% top-1 accuracy; 92% top-2. Below 90% threshold but on trajectory."
+    - goal: "Deploy model to staging environment"
+      status: "in_progress"
+      notes: "CI/CD pipeline configured; blocked on staging GPU allocation"
+    - goal: "Complete P1/P2 confidence threshold calibration"
+      status: "missed"
+      notes: "Deferred to S-004 — dependent on staging deployment for live traffic testing"
+
+  blockers:
+    - description: "Staging GPU allocation delayed — infrastructure team backlog"
+      owner: "James Okafor"
+      severity: "critical"
+    - description: "APAC ticket dataset has 12% label inconsistency — needs SME re-review"
+      owner: "Priya Sharma"
+      severity: "major"
+
+  model_performance:
+    - metric_id: "T1"
+      current_value: "87%"
+      vs_threshold: "below"
+    - metric_id: "T2"
+      current_value: "320ms"
+      vs_threshold: "above"
+    - metric_id: "H1"
+      current_value: "22%"
+      vs_threshold: "below"
+    - metric_id: "H2"
+      current_value: "N/A"
+      vs_threshold: "at"
+    - metric_id: "B1"
+      current_value: "8%"
+      vs_threshold: "below"
+    - metric_id: "B2"
+      current_value: "N/A"
+      vs_threshold: "at"
+
+  data_pipeline:
+    quality_score: "94%"
+    coverage: "78%"
+    labeling_progress: "65%"
+
+  next_sprint_plan:
+    - priority: "P0"
+      description: "Resolve staging GPU allocation and deploy model"
+      assignee: "James Okafor"
+    - priority: "P0"
+      description: "APAC dataset label cleanup and re-validation"
+      assignee: "Priya Sharma"
+    - priority: "P1"
+      description: "P1/P2 confidence threshold calibration with live traffic"
+      assignee: "David Kim"
+    - priority: "P1"
+      description: "Agent feedback UI prototype — first iteration"
+      assignee: "Aisha Patel"
+    - priority: "P2"
+      description: "Expand training data with LATAM product line tickets"
+      assignee: "Priya Sharma"
+
+# ---------------------------------------------------------------------------
+# Shared Sections
+# ---------------------------------------------------------------------------
+
+success_metrics:
+  technical:
+    - id: "T1"
+      metric: "Classification accuracy (top-1)"
+      threshold: ">= 92%"
+      action_if_breached: "Retrain with expanded labeled dataset; review misclassified categories"
+    - id: "T2"
+      metric: "Inference latency (P95)"
+      threshold: "< 500ms"
+      action_if_breached: "Optimize model serving; evaluate model distillation"
+  human_centered:
+    - id: "H1"
+      metric: "Agent override rate"
+      threshold: "<= 15%"
+      action_if_breached: "Conduct agent interviews to identify systematic misclassifications"
+    - id: "H2"
+      metric: "Agent trust score (quarterly survey)"
+      threshold: ">= 4.0 / 5.0"
+      action_if_breached: "Improve explanation UI; increase transparency on model reasoning"
+  business:
+    - id: "B1"
+      metric: "Misroute rate"
+      threshold: "<= 5% (down from 18%)"
+      action_if_breached: "Audit routing logic; expand training data for problem categories"
+    - id: "B2"
+      metric: "Average time-to-resolution"
+      threshold: ">= 25% reduction"
+      action_if_breached: "Investigate bottlenecks beyond triage (e.g., specialist capacity)"
+
+milestones:
+  - id: "M-001"
+    phase: 1
+    description: "Problem statement and AI justification approved"
+    owner: "Maria Chen"
+    due_date: "2026-03-14"
+    status: "completed"
+    dependencies: []
+  - id: "M-002"
+    phase: 2
+    description: "Data Card complete for all 5 product line datasets"
+    owner: "Priya Sharma"
+    due_date: "2026-04-11"
+    status: "completed"
+    dependencies: ["M-001"]
+  - id: "M-003"
+    phase: 2
+    description: "Feasibility assessment and baseline model evaluation"
+    owner: "James Okafor"
+    due_date: "2026-04-11"
+    status: "completed"
+    dependencies: ["M-001"]
+  - id: "M-004"
+    phase: 3
+    description: "Architecture design and explainability approach approved"
+    owner: "James Okafor"
+    due_date: "2026-05-01"
+    status: "completed"
+    dependencies: ["M-003"]
+  - id: "M-005"
+    phase: 4
+    description: "Multi-language classification model v1 trained"
+    owner: "David Kim"
+    due_date: "2026-06-06"
+    status: "completed"
+    dependencies: ["M-002", "M-004"]
+  - id: "M-006"
+    phase: 4
+    description: "Model deployed to staging with CI/CD pipeline"
+    owner: "James Okafor"
+    due_date: "2026-06-20"
+    status: "blocked"
+    dependencies: ["M-005"]
+  - id: "M-007"
+    phase: 4
+    description: "Agent feedback UI integrated and tested"
+    owner: "Aisha Patel"
+    due_date: "2026-07-04"
+    status: "in_progress"
+    dependencies: ["M-004"]
+  - id: "M-008"
+    phase: 5
+    description: "Full evaluation report and RAI review"
+    owner: "Maria Chen"
+    due_date: "2026-07-31"
+    status: "not_started"
+    dependencies: ["M-006", "M-007"]
+
+sprints:
+  cadence_days: 14
+  entries:
+    - sprint_id: "S-001"
+      phase: 4
+      start: "2026-05-04"
+      end: "2026-05-16"
+      goals:
+        - "Set up training infrastructure and data pipeline"
+        - "Implement baseline classification model"
+    - sprint_id: "S-002"
+      phase: 4
+      start: "2026-05-18"
+      end: "2026-05-30"
+      goals:
+        - "Train multi-language model v1"
+        - "Set up evaluation framework"
+    - sprint_id: "S-003"
+      phase: 4
+      start: "2026-06-01"
+      end: "2026-06-13"
+      goals:
+        - "Complete multi-language tokenizer integration"
+        - "Achieve >= 85% classification accuracy on validation set"
+        - "Deploy model to staging environment"
+        - "Complete P1/P2 confidence threshold calibration"
+    - sprint_id: "S-004"
+      phase: 4
+      start: "2026-06-15"
+      end: "2026-06-27"
+      goals:
+        - "Staging deployment and live traffic testing"
+        - "Confidence threshold calibration"
+        - "Agent feedback UI first iteration"
+
+risks:
+  - risk_id: "R-001"
+    description: "Insufficient labeled training data for new product lines"
+    likelihood: "M"
+    impact: "H"
+    mitigation: "Prioritize labeling for new product lines in Phase 2; engage domain SMEs for label review"
+    owner: "Priya Sharma"
+    status: "open"
+    review_date: "2026-06-20"
+  - risk_id: "R-002"
+    description: "Language bias leading to lower accuracy for non-English tickets"
+    likelihood: "H"
+    impact: "H"
+    mitigation: "Stratified evaluation by language; multilingual training data augmentation; Facets audit"
+    owner: "David Kim"
+    status: "open"
+    review_date: "2026-06-20"
+  - risk_id: "R-003"
+    description: "Agent resistance to AI-assisted triage"
+    likelihood: "M"
+    impact: "M"
+    mitigation: "Early agent involvement in design (Phase 3); pilot with volunteer team; transparent override metrics"
+    owner: "Aisha Patel"
+    status: "mitigated"
+    review_date: "2026-07-15"
+  - risk_id: "R-004"
+    description: "P1 ticket misclassification causing delayed response to critical issues"
+    likelihood: "L"
+    impact: "H"
+    mitigation: "P1/P2 tickets require human confirmation; fallback to manual triage if confidence < 0.8"
+    owner: "James Okafor"
+    status: "open"
+    review_date: "2026-06-27"
+
+timeline:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    target_start: "2026-03-03"
+    target_end: "2026-03-14"
+    gate_owner: "PM"
+  - phase: 2
+    description: "Data and Feasibility"
+    target_start: "2026-03-17"
+    target_end: "2026-04-11"
+    gate_owner: "Tech Lead"
+  - phase: 3
+    description: "Design and Architecture"
+    target_start: "2026-04-14"
+    target_end: "2026-05-01"
+    gate_owner: "Tech Lead"
+  - phase: 4
+    description: "Build and Iteration"
+    target_start: "2026-05-04"
+    target_end: "2026-07-10"
+    gate_owner: "PM"
+  - phase: 5
+    description: "Evaluation and Validation"
+    target_start: "2026-07-13"
+    target_end: "2026-07-31"
+    gate_owner: "Eng Lead"
+  - phase: 6
+    description: "Launch and Post-Launch"
+    target_start: "2026-08-03"
+    target_end: "2026-08-28"
+    gate_owner: "PM"

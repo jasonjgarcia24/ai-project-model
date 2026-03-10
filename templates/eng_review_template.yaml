@@ -1,0 +1,152 @@
+# AI Project Engineering / Tactical Review Deck — Template Schema
+# Keys map to {{Eng_*}} placeholder tokens in the Google Slides template.
+# Auto-population reads this YAML -> generates Slides API batchUpdate requests.
+#
+# ============================================================================
+# KEY MAPPING: yaml_key -> {{Slides Placeholder}}
+# ============================================================================
+#
+# TITLE SLIDE
+#   metadata.project_name                   -> {{Eng_Project_Name}}
+#   sprint_review.sprint_id                 -> {{Eng_Sprint_Id}}
+#   (derived from sprints.entries[])        -> {{Eng_Sprint_Dates}}
+#   metadata.authors.pm + .tech_lead        -> {{Eng_Team}}
+#   (sprint end date or current date)       -> {{Eng_Review_Date}}
+#
+# SPRINT SUMMARY (Slide 2)
+#   (derived count: completed goals)        -> {{Eng_Goals_Completed}}
+#   (derived count: total goals)            -> {{Eng_Goals_Total}}
+#   (derived: completed/total * 100)        -> {{Eng_Completion_Rate}}
+#   sprint_review.goals_status[]            -> Goals table (cell population)
+#   sprint_review.blockers[]                -> Blockers table (cell population)
+#
+# MILESTONE STATUS (Slide 3)
+#   (derived from active milestones)        -> {{Eng_Current_Phase}}
+#   milestones[]                            -> Milestone table (cell population)
+#
+# MODEL PERFORMANCE (Slide 4)
+#   sprint_review.model_performance[]       -> Metrics table (cell population)
+#     Cross-referenced with success_metrics for metric name + threshold
+#
+# DATA PIPELINE STATUS (Slide 5)
+#   sprint_review.data_pipeline.quality_score    -> {{Eng_Data_Quality}}
+#   sprint_review.data_pipeline.coverage         -> {{Eng_Data_Coverage}}
+#   sprint_review.data_pipeline.labeling_progress -> {{Eng_Labeling_Progress}}
+#
+# TECHNICAL RISKS (Slide 6)
+#   (derived count: open risks)             -> {{Eng_Active_Risk_Count}}
+#   risks[status=open]                      -> Risk table (cell population)
+#
+# NEXT SPRINT PLAN (Slide 7)
+#   (derived: next sprint ID)               -> {{Eng_Next_Sprint_Id}}
+#   sprint_review.next_sprint_plan[]        -> Plan table (cell population)
+#
+# APPENDIX (Slide 8)
+#   metadata.document_ids.tracking          -> {{Eng_Tracking_Link}}
+#   metadata.document_ids.kickoff           -> {{Eng_Kickoff_Link}}
+#   metadata.document_ids.requirements      -> {{Eng_Requirements_Link}}
+#
+# ============================================================================
+
+---
+metadata:
+  project_name: ""
+  framework: "AI Project Model (Google PAIR-Aligned)"
+  authors:
+    pm: ""
+    tech_lead: ""
+    additional: []
+  document_ids:
+    kickoff: ""                    # Google Docs ID
+    requirements: ""               # Google Docs ID
+    tracking: ""                   # Google Sheets ID
+    eng_review: ""                 # Google Slides ID (this artifact)
+    leadership_review: ""          # Google Slides ID
+  presentation_id: ""             # Google Slides ID once created (alias for document_ids.eng_review)
+
+# ---------------------------------------------------------------------------
+# Sprint Review Data (A4 primary data source)
+# ---------------------------------------------------------------------------
+sprint_review:
+  sprint_id: ""                    # Which sprint this review covers (e.g., S-003)
+
+  goals_status:                    # Sprint goals and their outcomes
+    - goal: ""                     # Sprint goal description
+      status: ""                   # completed | in_progress | missed
+      notes: ""                    # Optional context
+
+  blockers:                        # Active blockers during the sprint
+    - description: ""              # What is blocked
+      owner: ""                    # Who owns resolution
+      severity: ""                 # critical | major | minor
+
+  model_performance:               # Current model metrics vs. thresholds
+    - metric_id: ""                # References success_metrics (T1, H1, B1, etc.)
+      current_value: ""            # Current measured value
+      vs_threshold: ""             # above | at | below
+
+  data_pipeline:                   # Data pipeline health
+    quality_score: ""              # Data quality metric (e.g., "94%")
+    coverage: ""                   # % of required data collected (e.g., "78%")
+    labeling_progress: ""          # % of labeling complete (e.g., "65%")
+
+  next_sprint_plan:                # Planned work for the next sprint
+    - priority: ""                 # P0 | P1 | P2
+      description: ""             # What will be worked on
+      assignee: ""                # Who is responsible
+
+# ---------------------------------------------------------------------------
+# Shared Sections (referenced from project.yaml)
+# ---------------------------------------------------------------------------
+
+success_metrics:
+  technical:                       # IDs: T1, T2, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+  human_centered:                  # IDs: H1, H2, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+  business:                        # IDs: B1, B2, ...
+    - id: ""
+      metric: ""
+      threshold: ""
+      action_if_breached: ""
+
+milestones:
+  - id: ""                         # Milestone ID (e.g., M-001)
+    phase: 1                       # Which phase (1-6)
+    description: ""                # What is being delivered
+    owner: ""                      # Responsible person
+    due_date: ""                   # YYYY-MM-DD
+    status: ""                     # not_started | in_progress | completed | blocked
+    dependencies: []               # List of milestone IDs this depends on
+
+sprints:
+  cadence_days: 14                 # Default: 14 (2 weeks)
+  entries:
+    - sprint_id: ""                # Sprint ID (e.g., S-001)
+      phase: 1                    # Which phase this sprint falls in
+      start: ""                   # YYYY-MM-DD
+      end: ""                     # YYYY-MM-DD
+      goals: []                   # List of sprint goal descriptions
+
+risks:
+  - risk_id: ""                    # Risk ID (e.g., R-001)
+    description: ""
+    likelihood: ""                 # H | M | L
+    impact: ""                     # H | M | L
+    mitigation: ""
+    owner: ""
+    status: "open"                 # open | mitigated | closed
+    review_date: ""                # YYYY-MM-DD
+
+timeline:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    target_start: ""               # YYYY-MM-DD
+    target_end: ""                 # YYYY-MM-DD
+    gate_owner: ""

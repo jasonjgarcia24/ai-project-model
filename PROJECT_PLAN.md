@@ -43,10 +43,10 @@ Five artifact types span the project lifecycle. Each follows the same pattern: Y
 | # | Artifact | Phases | Output Format | Status |
 |---|----------|--------|---------------|--------|
 | A1 | Project Kick-Off Document | 1 | Google Doc | **Complete** |
-| A2 | Requirements Definition | 1–3 | Google Doc | Not started |
-| A3 | Milestone & Task Tracking | 1–6 | Google Sheets | Not started |
-| A4 | Engineering / Tactical Review Deck | 4–6 | Google Slides | Not started |
-| A5 | Leadership / Strategic Update Deck | 1–6 (gates) | Google Slides | Not started |
+| A2 | Requirements Definition | 1–3 | Google Doc | **Complete** (local) |
+| A3 | Milestone & Task Tracking | 1–6 | Google Sheets | **Complete** (local) |
+| A4 | Engineering / Tactical Review Deck | 4–6 | Google Slides | **Complete** (local) |
+| A5 | Leadership / Strategic Update Deck | 1–6 (gates) | Google Slides | **Complete** (local) |
 
 Supporting technical documents (Data Cards, Architecture Design Doc, Evaluation Report) are referenced in the requirements definition but are not templated in v1 — they are project-specific and authored manually using the framework's guidance.
 
@@ -133,25 +133,33 @@ Documented here to inform future artifact development:
   - **Resolved:** Single `project.yaml` at project root with artifact-specific sections. Roles, timeline, and metrics are entered once and flow to all artifacts. Full schema design: `design/shared_yaml_schema.md`
 - [x] Update `requirements_definition.md` to v1.0 with resolved decisions (**Done** 2026-03-02)
 
-### Phase B — Requirements Definition Template (A2) (current)
+### Phase B — Requirements Definition Template (A2)
 
 **Goal:** Build the Requirements Definition artifact using the same proven pattern as kick-off.
 
 **Depends on:** Phase A (format decisions, shared data layer decision) — COMPLETE
 
+**Status:** Local artifacts complete (2026-03-09). Google Doc template (v1) to be created manually.
+
 **Tasks:**
-- [ ] Design the Requirements Definition Google Doc template (Phase 1–3 content):
+- [x] Design the Requirements Definition Google Doc template (Phase 1–3 content):
   - Functional requirements
   - Data requirements (dataset inventory, Data Card references, labeling strategy)
   - Model requirements (architecture constraints, performance baselines, compute)
   - Responsible AI requirements (bias audit plan, fairness criteria, privacy strategy)
   - Acceptance criteria per phase gate
-- [ ] Define YAML schema (`templates/requirements_template.yaml`) with key-to-placeholder mapping
-- [ ] Create filled example YAML
+  - Design requirements (explainability, user controls, onboarding, error handling)
+  - Privacy, compliance & safety
+  - Dependencies
+  - Traceability matrix
+- [x] Define YAML schema (`templates/requirements_template.yaml`) with key-to-placeholder mapping
+- [x] Create filled example YAML (`templates/examples/requirements_example_support_triage.yaml`)
 - [ ] Build Google Doc template (v1) with unique placeholders
-- [ ] Write populate script (may extend existing `populate_kickoff.py` or create a shared base)
-- [ ] Write Claude Code skill (`requirements-populate`)
-- [ ] Test end-to-end with example data
+- [x] Write populate script (`.claude/skills/requirements-populate/scripts/populate_requirements.py`)
+- [x] Write table builder script (`.claude/skills/requirements-populate/scripts/build_table_inserts.py`)
+- [x] Write Claude Code skill (`requirements-populate`) with SKILL.md
+- [x] Write placeholder mapping reference (`references/placeholder_mapping.md`)
+- [ ] Test end-to-end with example data (requires Google Doc template)
 
 ### Phase C — Milestone & Task Tracking Framework (A3)
 
@@ -159,21 +167,32 @@ Documented here to inform future artifact development:
 
 **Depends on:** Phase A (tracking format decision)
 
+**Status:** Complete (2026-03-09)
+
+**Deliverables:**
+- Design spec (`design/tracking_sheet_template_spec.md`)
+- YAML template (`templates/tracking_template.yaml`)
+- Filled example (`templates/examples/tracking_example_support_triage.yaml`)
+- Sheets API utility (`.claude/skills/tracking-populate/scripts/sheets_api.py`)
+- Populate script (`.claude/skills/tracking-populate/scripts/populate_tracking.py`)
+- Skill definition (`.claude/skills/tracking-populate/SKILL.md`)
+- Field mapping reference (`.claude/skills/tracking-populate/references/field_mapping.md`)
+
 **Tasks:**
-- [ ] Design Google Sheets template with the following tabs:
+- [x] Design Google Sheets template with the following tabs:
   - **Phase Gates** — 6 phase gate checklists with go/no-go criteria, owner, date
   - **Milestones** — Per-phase milestones: owner, due date, status, dependencies
   - **Task Board** — Sprint-level tracking: Backlog → In Progress → Review → Done
   - **Resource Matrix** — Personnel assignments per phase (role, % allocation, coverage)
   - **Risk Register** — Risk ID, description, likelihood, impact, mitigation, owner
   - **Decision Log** — Key decisions, rationale, date, decision maker
-- [ ] Define YAML schema (`templates/tracking_template.yaml`)
+- [x] Define YAML schema (`templates/tracking_template.yaml`)
   - Initial population from kick-off YAML (roles, timeline, risks carry forward)
-- [ ] Create filled example YAML
-- [ ] Build Google Sheets template with placeholder structure
-- [ ] Write populate script (new — Sheets API differs from Docs API)
-- [ ] Add Sheets API operations to `google_api.py` (or create `sheets_api.py`)
-- [ ] Write Claude Code skill (`tracking-populate`)
+- [x] Create filled example YAML
+- [x] Build Google Sheets template with placeholder structure
+- [x] Write populate script (new — Sheets API differs from Docs API)
+- [x] Add Sheets API operations to `google_api.py` (or create `sheets_api.py`)
+- [x] Write Claude Code skill (`tracking-populate`)
 - [ ] Test end-to-end
 
 ### Phase D — Engineering / Tactical Review Deck (A4)
@@ -183,21 +202,23 @@ Documented here to inform future artifact development:
 **Depends on:** Phase C (pulls milestone/task data from tracking)
 
 **Tasks:**
-- [ ] Design Google Slides template:
+- [x] Design Google Slides template:
   - Sprint summary (goals, completions, blockers)
   - Milestone status (phase progress vs. plan)
   - Model performance (current metrics vs. thresholds)
   - Data pipeline status (quality, coverage, labeling progress)
   - Technical risks & mitigations (active items from risk register)
   - Next sprint plan (priorities, assignments, dependencies)
-- [ ] Define YAML schema (`templates/eng_review_template.yaml`)
-  - Should reference tracking YAML for milestone/risk data
-- [ ] Create filled example YAML
-- [ ] Build Google Slides template
-- [ ] Write populate script (new — Slides API)
-- [ ] Add Slides API operations to tooling
-- [ ] Write Claude Code skill (`eng-review-populate`)
-- [ ] Test end-to-end
+  - **Spec:** `design/eng_review_deck_spec.md`
+- [x] Define YAML schema (`templates/eng_review_template.yaml`)
+  - References tracking YAML for milestone/risk data
+- [x] Create filled example YAML (`templates/examples/eng_review_example_support_triage.yaml`)
+- [ ] Build Google Slides template (in Google Slides UI — pending)
+- [x] Write populate script (`scripts/populate_eng_review.py`)
+- [x] Add Slides API operations to tooling (`shared/scripts/slides_api.py`)
+- [x] Write Claude Code skill (`eng-review-populate`)
+- [x] Write placeholder mapping (`references/placeholder_mapping.md`)
+- [ ] Test end-to-end (requires Google Slides template)
 
 ### Phase E — Leadership / Strategic Update Deck (A5)
 
@@ -206,7 +227,7 @@ Documented here to inform future artifact development:
 **Depends on:** Phase C (pulls tracking data), Phase D (may share Slides tooling)
 
 **Tasks:**
-- [ ] Design Google Slides template:
+- [x] Design Google Slides template:
   - Project health summary (RAG status, current phase, key risks)
   - Business objective alignment (problem → AI solution → success metrics)
   - Phase gate status (current phase, completed gates, upcoming gate)
@@ -214,12 +235,14 @@ Documented here to inform future artifact development:
   - Resource & budget status (personnel allocation, spend vs. plan)
   - Timeline & milestones (high-level roadmap view)
   - Responsible AI status (RAI checklist, open items)
-- [ ] Define YAML schema (`templates/leadership_review_template.yaml`)
-- [ ] Create filled example YAML
-- [ ] Build Google Slides template
-- [ ] Write populate script
-- [ ] Write Claude Code skill (`leadership-review-populate`)
-- [ ] Test end-to-end
+  - **Spec:** `design/leadership_review_deck_spec.md`
+- [x] Define YAML schema (`templates/leadership_review_template.yaml`)
+- [x] Create filled example YAML (`templates/examples/leadership_review_example_support_triage.yaml`)
+- [ ] Build Google Slides template (in Google Slides UI — pending)
+- [x] Write populate script (`scripts/populate_leadership_review.py`)
+- [x] Write Claude Code skill (`leadership-review-populate`)
+- [x] Write placeholder mapping (`references/placeholder_mapping.md`)
+- [ ] Test end-to-end (requires Google Slides template)
 
 ### Phase F — Integration & Polish
 

@@ -1,0 +1,329 @@
+# AI Project Milestone & Task Tracking — Template Schema
+# Keys map to Google Sheets tabs and columns in the tracking workbook.
+# Auto-population reads this YAML → populates a Google Sheets copy.
+#
+# Google Sheets template: (ID set after template creation)
+#   Template ID stored in SKILL.md
+#
+# ============================================================================
+# KEY MAPPING: yaml_key → Sheet Tab + Column
+# ============================================================================
+#
+# PHASE GATES TAB
+#   phase_gates[].phase               → Column A (Gate number)
+#   phase_gates[].description         → Column B (Phase name)
+#   phase_gates[].criteria[].id       → Column C (Criteria ID)
+#   phase_gates[].criteria[].description → Column D (Checklist Item)
+#   phase_gates[].criteria[].completed → Column E (Status: maps true→Complete, false→Not Started)
+#   phase_gates[].owner               → Column F (Owner)
+#   timeline[phase=N].target_end      → Column G (Target Date — gate date = phase end date)
+#   phase_gates[].date                → Column H (Actual Date)
+#   phase_gates[].status              → Column I (Go/No-Go: maps passed→Go, blocked→No-Go)
+#
+# MILESTONES TAB
+#   milestones[].id                   → Column A (Milestone ID)
+#   milestones[].phase                → Column B (Phase)
+#   milestones[].description          → Column C (Milestone)
+#   milestones[].owner                → Column D (Owner)
+#   milestones[].due_date             → Column E (Due Date)
+#   (empty on initial populate)       → Column F (Actual Date)
+#   milestones[].status               → Column G (Status: maps to On Track/At Risk/Blocked/Complete)
+#   milestones[].dependencies         → Column H (Dependencies: joined with ", ")
+#   (empty on initial populate)       → Column I (Notes)
+#
+# TASK BOARD TAB
+#   tasks[].id                        → Column A (Task ID)
+#   tasks[].milestone_id              → Column B (Milestone ID)
+#   tasks[].title                     → Column C (Task)
+#   tasks[].assignee                  → Column D (Assignee)
+#   tasks[].sprint_id                 → Column E (Sprint)
+#   tasks[].status                    → Column F (Status: maps to Backlog/In Progress/Review/Done)
+#   tasks[].priority                  → Column G (Priority)
+#   tasks[].story_points              → Column H (Story Points)
+#   tasks[].created                   → Column I (Created)
+#   tasks[].updated                   → Column J (Updated)
+#
+# RESOURCE MATRIX TAB
+#   resource_matrix[].role            → Column A (Role)
+#   resource_matrix[].name            → Column B (Person)
+#   resource_matrix[].phase_allocations.1 → Column C (Phase 1 %)
+#   resource_matrix[].phase_allocations.2 → Column D (Phase 2 %)
+#   resource_matrix[].phase_allocations.3 → Column E (Phase 3 %)
+#   resource_matrix[].phase_allocations.4 → Column F (Phase 4 %)
+#   resource_matrix[].phase_allocations.5 → Column G (Phase 5 %)
+#   resource_matrix[].phase_allocations.6 → Column H (Phase 6 %)
+#   (formula: =AVERAGE(C:H))         → Column I (Avg Allocation %)
+#   resource_matrix[].notes           → Column J (Notes)
+#
+# RISK REGISTER TAB
+#   risks[].risk_id                   → Column A (Risk ID)
+#   risks[].description               → Column B (Description)
+#   risks[].category                  → Column C (Category)
+#   risks[].likelihood                → Column D (Likelihood: 1-5)
+#   risks[].impact                    → Column E (Impact: 1-5)
+#   (formula: =D*E)                   → Column F (Risk Score)
+#   risks[].mitigation                → Column G (Mitigation)
+#   risks[].owner                     → Column H (Owner)
+#   risks[].status                    → Column I (Status: Open/Mitigating/Closed)
+#   risks[].date_identified           → Column J (Date Identified)
+#   risks[].date_resolved             → Column K (Date Resolved)
+#
+# DECISION LOG TAB
+#   decisions[].id                    → Column A (Decision ID)
+#   decisions[].title                 → Column B (Title)
+#   decisions[].description           → Column C (Description)
+#   decisions[].options_considered    → Column D (Options Considered)
+#   decisions[].decision              → Column E (Decision)
+#   decisions[].rationale             → Column F (Rationale)
+#   decisions[].maker                 → Column G (Decision Maker)
+#   decisions[].date                  → Column H (Date)
+#   decisions[].status                → Column I (Status: Proposed/Decided/Revisited)
+#
+# ============================================================================
+
+---
+metadata:
+  project_name: ""
+  framework: "AI Project Model (Google PAIR-Aligned)"
+  authors:
+    pm: ""
+    tech_lead: ""
+  document_ids:
+    tracking: ""               # Google Sheets ID once created
+
+# --- Sprints Configuration ---
+# Default cadence is 14 days (2 weeks). Configurable: 7, 14, 21, etc.
+sprints:
+  cadence_days: 14
+  entries:
+    - sprint_id: ""            # S-001, S-002, ...
+      phase: 1                 # Which phase this sprint falls in
+      start: ""                # YYYY-MM-DD
+      end: ""                  # YYYY-MM-DD
+      goals: []                # List of sprint goal descriptions
+
+# --- Phase Gates ---
+# 6 phase gate checklists. Each gate has criteria that must be met to advance.
+# Populates the "Phase Gates" tab.
+phase_gates:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    owner: ""
+    status: "pending"          # pending | passed | blocked
+    date: ""                   # Date gate was passed (YYYY-MM-DD)
+    criteria:
+      - id: "G1.1"
+        description: "Problem statement approved"
+        completed: false
+      - id: "G1.2"
+        description: "AI applicability justified"
+        completed: false
+      - id: "G1.3"
+        description: "Success metrics defined with measurable thresholds"
+        completed: false
+      - id: "G1.4"
+        description: "Responsible AI checklist completed"
+        completed: false
+      - id: "G1.5"
+        description: "Roles confirmed"
+        completed: false
+      - id: "G1.6"
+        description: "Sponsor sign-off"
+        completed: false
+  - phase: 2
+    description: "Data and Feasibility"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G2.1"
+        description: "Data Card(s) complete for all datasets"
+        completed: false
+      - id: "G2.2"
+        description: "Feasibility assessment signed off by Tech Lead"
+        completed: false
+      - id: "G2.3"
+        description: "Bias audit baseline established"
+        completed: false
+      - id: "G2.4"
+        description: "Data governance and PII strategy documented"
+        completed: false
+  - phase: 3
+    description: "Design and Architecture"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G3.1"
+        description: "Architecture design reviewed by Tech Lead and Eng Lead"
+        completed: false
+      - id: "G3.2"
+        description: "Explainability approach approved"
+        completed: false
+      - id: "G3.3"
+        description: "User control mechanisms defined"
+        completed: false
+      - id: "G3.4"
+        description: "Wizard of Oz prototype tested with target users"
+        completed: false
+  - phase: 4
+    description: "Build and Iteration"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G4.1"
+        description: "All milestones completed per milestone tracker"
+        completed: false
+      - id: "G4.2"
+        description: "Model meets threshold success metrics (all three dimensions)"
+        completed: false
+      - id: "G4.3"
+        description: "Feedback mechanisms functional and tested"
+        completed: false
+      - id: "G4.4"
+        description: "Code review and testing complete"
+        completed: false
+  - phase: 5
+    description: "Evaluation and Validation"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G5.1"
+        description: "Evaluation report complete"
+        completed: false
+      - id: "G5.2"
+        description: "RAI review passed (no open blockers)"
+        completed: false
+      - id: "G5.3"
+        description: "Error taxonomy audit complete"
+        completed: false
+      - id: "G5.4"
+        description: "Launch checklist signed off by all stakeholders"
+        completed: false
+  - phase: 6
+    description: "Launch and Post-Launch"
+    owner: ""
+    status: "pending"
+    date: ""
+    criteria:
+      - id: "G6.1"
+        description: "Monitoring dashboards live and baselined"
+        completed: false
+      - id: "G6.2"
+        description: "Post-launch review schedule established"
+        completed: false
+      - id: "G6.3"
+        description: "Rollback plan documented and tested"
+        completed: false
+      - id: "G6.4"
+        description: "Handoff to operations/maintenance team complete"
+        completed: false
+
+# --- Milestones ---
+# Per-phase milestones. More granular than timeline phase entries.
+# Populates the "Milestones" tab.
+milestones:
+  - id: ""                     # M-001, M-002, ...
+    phase: 1                   # Which phase (1-6)
+    description: ""            # What is being delivered
+    owner: ""                  # Responsible person
+    due_date: ""               # YYYY-MM-DD
+    status: ""                 # not_started | in_progress | completed | blocked
+    dependencies: []           # List of milestone IDs this depends on
+
+# --- Tasks ---
+# Sprint-level tasks. Populates the "Task Board" tab.
+tasks:
+  - id: ""                     # T-001, T-002, ... (different namespace from success metric IDs)
+    title: ""                  # Task title
+    description: ""            # Task details (not shown in sheet; used for context)
+    sprint_id: ""              # Which sprint (S-001) or "backlog"
+    assignee: ""               # Person responsible
+    status: ""                 # backlog | in_progress | review | done
+    milestone_id: ""           # Parent milestone (M-001, etc.)
+    priority: ""               # P0 | P1 | P2 | P3
+    story_points: 0            # Numeric effort estimate
+    created: ""                # YYYY-MM-DD
+    updated: ""                # YYYY-MM-DD
+
+# --- Resource Matrix ---
+# Personnel allocation per phase. Seeded from roles[].
+# Populates the "Resource Matrix" tab.
+resource_matrix:
+  - role: ""                   # Matches roles[].role
+    name: ""                   # Matches roles[].name
+    phase_allocations:         # % allocation per phase
+      1: 0
+      2: 0
+      3: 0
+      4: 0
+      5: 0
+      6: 0
+    notes: ""
+
+# --- Risks ---
+# Extended risk register with lifecycle fields.
+# Populates the "Risk Register" tab.
+# Note: likelihood/impact use 1-5 numeric scale (not H/M/L from kickoff).
+# Kickoff H/M/L values are mapped by the populate script: H=4, M=3, L=2.
+risks:
+  - risk_id: ""                # R-001, R-002, ...
+    description: ""
+    category: ""               # Technical | Data | Resource | Schedule | RAI | External
+    likelihood: 0              # 1-5 (1=Very Low, 5=Very High)
+    impact: 0                  # 1-5 (1=Very Low, 5=Very High)
+    mitigation: ""
+    owner: ""
+    status: "Open"             # Open | Mitigating | Closed
+    date_identified: ""        # YYYY-MM-DD
+    date_resolved: ""          # YYYY-MM-DD
+
+# --- Decisions ---
+# Key project decisions. Append-only.
+# Populates the "Decision Log" tab.
+decisions:
+  - id: ""                     # DEC-001, DEC-002, ...
+    title: ""                  # Short decision title
+    description: ""            # Full decision description
+    options_considered: ""     # Alternatives evaluated
+    decision: ""               # What was decided
+    rationale: ""              # Why this choice was made
+    maker: ""                  # Who made the decision
+    date: ""                   # YYYY-MM-DD
+    status: ""                 # Proposed | Decided | Revisited
+
+# --- Timeline (shared with kickoff) ---
+# Phase-level dates. Used to set target dates for phase gates.
+timeline:
+  - phase: 1
+    description: "Discovery and Problem Framing"
+    target_start: ""           # YYYY-MM-DD
+    target_end: ""             # YYYY-MM-DD
+    gate_owner: ""
+  - phase: 2
+    description: "Data and Feasibility"
+    target_start: ""
+    target_end: ""
+    gate_owner: ""
+  - phase: 3
+    description: "Design and Architecture"
+    target_start: ""
+    target_end: ""
+    gate_owner: ""
+  - phase: 4
+    description: "Build and Iteration"
+    target_start: ""
+    target_end: ""
+    gate_owner: ""
+  - phase: 5
+    description: "Evaluation and Validation"
+    target_start: ""
+    target_end: ""
+    gate_owner: ""
+  - phase: 6
+    description: "Launch and Post-Launch"
+    target_start: ""
+    target_end: ""
+    gate_owner: ""
